@@ -1,89 +1,150 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UpdateEvent() {
-  const location = useLocation();
-  const event = location.state;
-  const [editedEvent, setEditedEvent] = useState({ ...event });
+  const [event, setEvent] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { eventId } = useParams();
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/showevent/${eventId}`,{withCredentials:true})
+      .then((response) => {
+        setEvent(response.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching event details:", err);
+      });
+  }, [eventId]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedEvent({
-      ...event,
-      [name]: value,
-    });
+    setEvent({ ...event, [name]: value });
+
+    if (name === "image") {
+      setEvent({ ...event, image: e.target.files[0] });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    axios.put("http://localhost:5000/api/showuserevent",)
+    setLoading(true);
+    try {
+      console.log(event)
+      await axios.put(
+        `http://localhost:5000/api/updateevent/${eventId}`,
+        event,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      toast.success("Event updated successfully!",{autoClose:1000,onClose:navigate("/showuserevents")});
+      
+    } catch (err) {
+      toast.error(err.response.data.message,{autoClose:200,onclose:navigate('/showuserevents')});
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-  <label>
-    Event Name:
-    <input
-      type="text"
-      name="name"
-      value={editedEvent.name}
-      onChange={handleInputChange}
-    />
-  </label>
+    <>
+      <form onSubmit={handleUpdate}>
+        <label>
+          Event Name:
+          <input
+            type="text"
+            name="name"
+            value={event.name || ""}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
 
-  <label>
-    Description:
-    <input
-      type="text"
-      name="description"
-      value={editedEvent.description}
-      onChange={handleInputChange}
-    />
-  </label>
+        <label>
+          Cover Image:
+          <input type="file" name="image" onChange={handleInputChange} />
+        </label>
 
-  <label>
-    Location:
-    <input
-      type="text"
-      name="location"
-      value={editedEvent.location}
-      onChange={handleInputChange}
-    />
-  </label>
+        <label>
+          Description:
+          <input
+            type="text"
+            name="description"
+            value={event.description || ""}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
 
-  <label>
-    Date:
-    <input
-      type="date"
-      name="date"
-      value={editedEvent.date}
-      onChange={handleInputChange}
-    />
-  </label>
+        <label>
+          Location:
+          <input
+            type="text"
+            name="location"
+            value={event.location || ""}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
 
-  <label>
-    Tickets Available:
-    <input
-      type="number"
-      name="ticketAvailable"
-      value={editedEvent.ticketAvailable}
-      onChange={handleInputChange}
-    />
-  </label>
+        <label>
+          Date:
+          <input
+            type="date"
+            name="date"
+            value={event.date || ""}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
 
-  <label>
-    Tickets Category:
-    <input
-      type="text"
-      name="ticketCategories"
-      value={editedEvent.ticketCategories}
-      onChange={handleInputChange}
-    />
-  </label>
+        <label>
+          Tickets Available:
+          <input
+            type="Number"
+            name="ticketAvailable"
+            value={event.ticketAvailable || ""}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
 
-  <button type="submit">Save Changes</button>
-</form>
+        <label>Is your event Public?</label>
+        <label>
+          <input
+            type="radio"
+            name="isPublic"
+            value="true"
+            checked={event.isPublic === true}
+            onChange={handleInputChange}
+            required
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="isPublic"
+            value="false"
+            checked={event.isPublic === false}
+            onChange={handleInputChange}
+            required
+          />
+          No
+        </label>
 
+        <button type="submit" disabled={loading}>
+          {loading ? "Updating Event..." : "Update Event"}
+        </button>
+        <ToastContainer />
+      </form>
+    </>
   );
 }

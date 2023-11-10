@@ -1,20 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const location = useLocation();
   const eventId = location.state;
   const [attendees, setAttendees] = useState([]);
-  const [reviews,setReviews]=useState([])
+  const [reviews, setReviews] = useState([]);
   const [view, setView] = useState(false);
   const [event, setEvent] = useState({});
+  const [ticketCategories, setTicketCategories] = useState([]);
 
   const handleAttendees = () => {
     setView(!view);
   };
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -22,16 +25,31 @@ export default function Home() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data.reviews);
+        console.log(response.data);
         setEvent(response.data);
         setAttendees(response.data.attendees);
-        setReviews(response.data.reviews)
+        setTicketCategories(response.data.ticketCategories)
+        setReviews(response.data.reviews);
       })
       .catch((err) => {
-        console.log(err);
-        navigate("/showuserevents")
+        toast.error(err.response.data.message,{autoClose:1000,onClose:()=>{navigate("/showuserevents");}});
+
       });
-  },[eventId]);
+  }, [eventId, navigate]);
+
+  const handleDelete=()=>{
+    axios.delete(`http://localhost:5000/api/deleteevent/${eventId}`)
+    .then((response)=>{
+      console.log(response.data)
+    })
+    .catch((err)=>{
+      console.log(err.respose.data)
+    })
+  }
+
+  const handleUpdate=()=>{
+    navigate(`/updateevent/${eventId}`)
+  }
 
   const handleCheckIn = (attendeeId) => {
     axios
@@ -65,10 +83,14 @@ export default function Home() {
         <li>Organizer: {event.organizer && event.organizer.name}</li>
         <li>Attendees: {event.attendees ? event.attendees.length : 0}</li>
         <li>Tickets Available: {event.ticketAvailable}</li>
-        <li>
-          Event Categories:{" "}
-          {event.ticketCategories && event.ticketCategories.join(", ")}
-        </li>
+        <img src={event.image} alt="" />
+        <ul>
+          {ticketCategories.map((category) => (
+            <li key={category._id}>
+              {category.name} - INR {category.price}
+            </li>
+          ))}
+        </ul>
       </ul>
       <button onClick={handleAttendees}>Show attendees</button>
       {view && (
@@ -88,13 +110,22 @@ export default function Home() {
           ))}
         </ul>
       )}
-      <button onClick={()=>{navigate('/booktickets',{state:eventId})}}>Book Tickets</button>
+      <button
+        onClick={() => {
+          navigate("/showuserevents");
+        }}
+      >
+        My Events
+      </button>
+      <button onClick={handleDelete}>Delete Event</button>
+      <button onClick={handleUpdate}>Update Event</button>
       <h3>Reviews:</h3>
       <ul>
         {reviews.map((review) => (
           <li key={review._id}>{review.body}</li>
         ))}
       </ul>
+      <ToastContainer/>
     </>
   );
 }

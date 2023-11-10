@@ -12,23 +12,24 @@ const generateRandomID = require('../utils/getRandomId')
 
 exports.registerTicket = async (req, res) => {
   const { eventId } = req.params
-  let { ticketType, price, purchaseDate, attendeeInfo } = req.body
-
+  let attendees = req.body
+  console.log(attendees)
   const event = await Event.findById(eventId)
 
   if (!event) {
     return res.status(404).json({ message: 'Event not found' })
   }
   const processAttendees = async () => {
-    for (const attendee of attendeeInfo) {
+    for (const attendee of attendees) {
       attendee.attendeeId = generateRandomID()
       attendee.eventId = eventId
+      attendee.ticketCategory=attendee.ticketCategory
       const { error, value } = attendeeRegistrationSchema.validate(attendee)
 
       if (error) {
         return res
           .status(400)
-          .json(error.details.map((el) => el.message).join(','))
+          .send(error.details.map((el) => el.message).join(','))
       } else {
         const newAttendee = new Attendee(attendee)
         await newAttendee.save()
@@ -39,9 +40,8 @@ exports.registerTicket = async (req, res) => {
         const newTicket = new Ticket({
           eventId,
           attendeeId: newAttendee._id,
-          ticketType,
-          price,
-          purchaseDate: new Date(purchaseDate),
+          ticketType:newAttendee.ticketCategory,
+          purchaseDate: new Date(attendee.purchaseDate),
         })
 
         event.tickets.push(newTicket)

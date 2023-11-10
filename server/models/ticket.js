@@ -1,28 +1,31 @@
-const { string } = require('joi');
-const mongoose = require('mongoose');
+const { string } = require('joi')
+const mongoose = require('mongoose')
 
-const ticketSchema = new mongoose.Schema({
-  eventId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Event',
-    required: true,
-  },
-  attendeeId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', 
-  },
-  ticketType: {
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'Category', 
-    type:String
-  },
-  price: String,
-  purchaseDate: {
-    type: Date,
-    required: true,
-  },
-},{timestamps:true});
+const ticketCategorySchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+})
 
-const Ticket = mongoose.model('Ticket', ticketSchema);
+const ticketSchema = new mongoose.Schema(
+  {
+    eventId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      required: true,
+    },
+    attendeeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    ticketType: ticketCategorySchema,
+    purchaseDate: {
+      type: Date,
+      required: true,
+    },
+  },
+  { timestamps: true },
+)
 
-module.exports = Ticket;
+const Ticket = mongoose.model('Ticket', ticketSchema)
+
+module.exports = Ticket

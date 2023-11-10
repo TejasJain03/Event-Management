@@ -3,7 +3,6 @@ module.exports = (error, req, res, next) => {
     return;
   }
 
-  res.setHeader("Content-Type", "application/json");
 
   error.statusCode = error.statusCode || 500;
   error.success = error.success || false;

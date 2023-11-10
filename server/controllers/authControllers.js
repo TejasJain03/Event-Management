@@ -23,8 +23,9 @@ exports.registerUser = async (req, res) => {
   } else {
     const userExists = await User.findOne({ email })
 
-    if (userExists)
+    if (userExists) {
       throw new ExpressError(401, false, 'You have already exists.')
+    }
     const hashedPassword = await bcrypt.hash(password, 10)
 
     const user = await User.create({
@@ -55,7 +56,7 @@ exports.loginUser = async (req, res) => {
     throw new ExpressError(401, false, 'Please register first!')
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password)
+  const passwordMatch =  bcrypt.compare(password, user.password)
 
   if (!passwordMatch) {
     throw new ExpressError(

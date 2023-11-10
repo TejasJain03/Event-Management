@@ -8,10 +8,12 @@ const generateToken = (res, userId) => {
     expiresIn: '1d',
   })
   res.cookie('access_token', token, {
-    httpOnly: true,
+    // sameSite: "none",    // uncomment it while deployment
+    sameSite: 'lax', // comment it while deployment
     path: '/',
-    sameSite: 'None', 
-    expires: new Date(new Date().getTime() + 6   * 60 * 60 * 1000), 
+    expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+    httpOnly: true,
+    // secure: true, // uncomment it while deployment
   })
 }
 

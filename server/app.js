@@ -1,53 +1,61 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const app = express()
-require('dotenv').config()
-const eventRoutes = require('./routes/eventRoutes')
-const attendeeRoutes = require('./routes/attendeeRoutes')
-const authRoutes = require('./routes/authRoutes')
-const ticketRoutes = require('./routes/ticketRoutes')
-const reviewRoutes = require('./routes/reviewRoutes')
-const ExpressError = require('./middleware/ExpressError')
-const GlobalErrorHandler = require('./middleware/GlobalErrorHandler')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
+const express = require("express");
+const mongoose = require("mongoose");
+const app = express();
+require("dotenv").config();
+const eventRoutes = require("./routes/eventRoutes");
+const attendeeRoutes = require("./routes/attendeeRoutes");
+const authRoutes = require("./routes/authRoutes");
+const ticketRoutes = require("./routes/ticketRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
+const categoryRoutes=require("./routes/categoryRoutes")
+const paymentRoutes=require('./routes/paymentRoutes')
+const ExpressError = require("./middleware/ExpressError");
+const GlobalErrorHandler = require("./middleware/GlobalErrorHandler");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-const PORT = process.env.PORT || 8000
+const connectDB = async () => {
+  try {
+    mongoose.connect(process.env.MONGO_URL, {
+    });
+    console.log("Connected to Mongo succesfully");
+  } catch (err) {
+    console.log("Error while connecting to database");
+  }
+};
+connectDB();
+
+const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: "http://localhost:5173",
   credentials: true,
-}
-app.use(cors(corsOptions))
+};
+app.use(cors(corsOptions));
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser())
+app.use(cookieParser());
 
-app.use('/api', eventRoutes)
-app.use('/api', attendeeRoutes)
-app.use('/api', authRoutes)
-app.use('/api', ticketRoutes)
-app.use('/api/event', reviewRoutes)
+app.use("/api", eventRoutes);
+app.use("/api", attendeeRoutes);
+app.use("/api", authRoutes);
+app.use("/api", ticketRoutes);
+app.use("/api/event", categoryRoutes);
+app.use("/api/event", reviewRoutes);
+app.use('/api',paymentRoutes)
 
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log('DB CONNECTED')
-    app.listen(PORT, () => {
-      console.log('LISTENING TO THE PORT')
-    })
-  })
-  .catch((err) => console.log('ERROR!!'))
-
-app.all('*', (req, res, next) => {
+app.all("*", (req, res, next) => {
   try {
-    throw new ExpressError(404, false, 'Page not found')
+    throw new ExpressError(404, false, "Page not found");
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
-app.use(GlobalErrorHandler)
+app.use(GlobalErrorHandler);
+
+app.listen(PORT, () => {
+  console.log("LISTENING TO THE PORT");
+});

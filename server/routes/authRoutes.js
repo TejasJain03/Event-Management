@@ -8,7 +8,7 @@ router.route('/register').post(catchAsync(authControllers.registerUser))
 
 router.route('/login').post(catchAsync(authControllers.loginUser))
 
-router.route('/logout').post(catchAsync(authControllers.logoutUser))
+router.route('/logout').get(authMiddleware,catchAsync(authControllers.logoutUser))
 
 router
   .route('/deleteuser')

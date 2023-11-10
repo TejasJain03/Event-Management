@@ -1,17 +1,24 @@
 const mongoose = require('mongoose')
 
+const ticketCategorySchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+})
+
 const attendeeSchema = new mongoose.Schema({
   name: String,
   email: String,
-  phone: String,
-  attendeeId:String,
-  eventId:{
-    type:mongoose.Schema.ObjectId,
-    ref:"Event"
+  phone: Number,
+  attendeeId: String,
+  eventId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Event',
   },
-  checkedIn:{
-    type:Boolean,
-    default:false
+  purchaseDate:Date,
+  ticketCategory: ticketCategorySchema,
+  checkedIn: {
+    type: Boolean,
+    default: false,
   },
 })
 

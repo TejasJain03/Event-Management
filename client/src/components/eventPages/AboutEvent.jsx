@@ -1,32 +1,31 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
-  const location = useLocation();
-  const eventId = location.state;
-  const [reviews,setReviews]=useState([])
+  const { id } = useParams();
+  const [reviews, setReviews] = useState([]);
   const [event, setEvent] = useState({});
 
- 
+  const [ticketCategories, setTicketCategories] = useState([]);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/showevent/${eventId}`, {
+      .get(`http://localhost:5000/api/aboutevent/${id}`, {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data.reviews);
         setEvent(response.data);
-        setReviews(response.data.reviews)
+        setTicketCategories(response.data.ticketCategories);
+        setReviews(response.data.reviews);
       })
       .catch((err) => {
         console.log(err);
-        navigate("/showuserevents")
+        navigate("/showuserevents");
       });
-  },[eventId, navigate]);
+  }, [id, navigate]);
   return (
     <>
       <h2>Event Details</h2>
@@ -35,15 +34,22 @@ export default function Home() {
         <li>Description: {event.description}</li>
         <li>Location: {event.location}</li>
         <li>Date: {event.date}</li>
-        <li>Organizer: {event.organizer && event.organizer.name}</li>
-        <li>Attendees: {event.attendees ? event.attendees.length : 0}</li>
+        <li>Organizer: {event.organizerId && event.organizerId.name}</li>
         <li>Tickets Available: {event.ticketAvailable}</li>
-        <li>
-          Event Categories:{" "}
-          {event.ticketCategories && event.ticketCategories.join(", ")}
-        </li>
+        <img loading="lazy" src={event.image}></img>
+        <ul>
+          {ticketCategories.map((category) => (
+            <li key={category._id}>{category.name}-INR{category.price}</li>
+          ))}
+        </ul>
       </ul>
-      <button onClick={()=>{navigate('/booktickets',{state:eventId})}}>Book Tickets</button>
+      <button
+        onClick={() => {
+          navigate("/booktickets", { state: id });
+        }}
+      >
+        Book Tickets
+      </button>
       <h3>Reviews:</h3>
       <ul>
         {reviews.map((review) => (

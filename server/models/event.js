@@ -20,10 +20,11 @@ const eventSchema = new mongoose.Schema({
     ref:"Ticket"
   }],
   ticketCategories:[{
-    type:String
+    type:mongoose.Schema.ObjectId,
+    ref:"Category"
   }],
   ticketAvailable:Number,
-  coverImage:{type:String},
+  image:{type:String},
   isPublic:Boolean,
   attendees: [
     {

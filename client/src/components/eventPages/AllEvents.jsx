@@ -2,7 +2,11 @@
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Navbar from "../utils/Navbar";
+import Footer from "../utils/Footer";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const [events, setEvents] = useState([]);
@@ -14,14 +18,18 @@ export default function Home() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data)
-        
+        toast.success(response.data);
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data.message, {
+          autoClose: 2000,
+          onClose: () => {
+            navigate("/login");
+          },
+        });
       });
   };
-  
 
   useEffect(() => {
     axios
@@ -37,21 +45,55 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Event List</h1>
-      {events.map((event) => (
-        <ul key={event._id}>
-          <li> {event.name}</li>
-          <li>{event.location}</li>
-          <button
-            onClick={() => {
-              console.log(event._id);
-            }}
+      <Navbar />
+      <h1 className="text-2xl text-center  font-bold m-4">Event List</h1>
+      <div className="flex flex-wrap gap-x-4 gap-y-4 m-4">
+        {events.slice(0, 3).map((event) => (
+          <div
+            key={event._id}
+            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-[600px] h-[500px] p-4 border bg-background border-gray-300 rounded-md"
           >
-            Click Here
-          </button>
-        </ul>
-      ))}
-      <button onClick={handleSubmit}>Create Event</button>
+            <h2 className="text-lg font-bold mb-2">{event.name}</h2>
+            <div className="w-full h-72 border-gray-300 border">
+              {event.image ? (
+                <img
+                  src={event.image}
+                  className="object-cover w-full h-full"
+                  alt=""
+                />
+              ) : (
+                <p className="text-center flex items-center justify-center h-full">
+                  No Image
+                </p>
+              )}
+            </div>
+            <p className="text-gray-600 mb-2">Location: {event.location}</p>
+            <p className="text-gray-600 mb-2">
+              Date: {event.date.slice(0, 10)}
+            </p>
+            <p className="text-gray-600 mb-2">
+              Organizer: {event.organizerId.name}
+            </p>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+              onClick={() => {
+                navigate(`/aboutevent/${event._id}`, { state: event._id });
+              }}
+            >
+              Know More
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="w-full h-20 flex justify-center items-center bg-red-200">
+        <button
+          onClick={handleSubmit}
+          className="bg-darkBlue text-white font-bold py-2 px-4 rounded hover:bg-darkBlue"
+        >
+          Create Event
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 }

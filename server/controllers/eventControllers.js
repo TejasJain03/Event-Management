@@ -3,18 +3,33 @@ const User = require('../models/user')
 const Ticket = require('../models/ticket')
 const Event = require('../models/event')
 const ExpressError = require('../middleware/ExpressError')
+const { cloudinary } = require('../config/cloudinary')
 
 exports.showAllEvent = async (req, res) => {
   // const userId = req.user._id
   // console.log(userId)
   // console.log(req.user.organisedEvents)
-  const data = await Event.find({})
+  const data = await Event.find({ isPublic: true }).populate('organizerId')
   res.send(data)
+}
+
+exports.aboutEvent = async (req, res) => {
+  const { eventId } = req.params
+  const event = await Event.findById(eventId).populate(
+    'organizerId reviews ticketCategories',
+  )
+
+  if (!event) {
+    return res.status(404).json({ success: false, message: 'Event not found' })
+  }
+  res.send(event)
 }
 
 exports.showOneEvent = async (req, res) => {
   const { eventId } = req.params
-  const event = await Event.findById(eventId).populate('organizerId attendees reviews')
+  const event = await Event.findById(eventId).populate(
+    'organizerId attendees reviews ticketCategories',
+  )
   if (!event) {
     return res.status(404).json({ success: false, message: 'Event not found' })
   }
@@ -25,7 +40,7 @@ exports.showOneEvent = async (req, res) => {
 
 exports.showUserEvent = async (req, res) => {
   const userId = req.user._id
-  const user = await User.findById(userId).populate('organisedEvents') // Assuming 'organisedEvents' is the field you want to populate
+  const user = await User.findById(userId).populate('organisedEvents')
   if (!user) {
     throw new ExpressError(401, false, 'User not found')
   }
@@ -35,60 +50,77 @@ exports.showUserEvent = async (req, res) => {
   const events = eventsOrganized.map((event) => ({
     _id: event._id,
     name: event.name,
-    description:event.description,
+    description: event.description,
+    image:event.image,
     date: event.date,
     location: event.location,
-    ticketAvailable:event.ticketAvailable,
-    ticketCategories:event.ticketCategories
+    ticketAvailable: event.ticketAvailable,
+    ticketCategories: event.ticketCategories,
   }))
 
   res.send(events)
 }
 
-exports.showCreateEvent=async(req,res)=>{
+exports.showCreateEvent = async (req, res) => {
   res.send(req.user._id)
 }
 
 exports.createEvent = async (req, res) => {
   const eventData = req.body
-  // if (req.files && req.files.image) {
-  //   const image = req.files.image
+  const image = req.file
 
-  //   const cloudinaryResponse = await cloudinary.uploader.upload(
-  //     image.tempFilePath,
-  //     {
-  //       folder: 'event-images',
-  //       public_id: `event_${Date.now()}`,
-  //     },
-  //   )
+  if (image) {
+    eventData.image = image.path
+    const data = new Event({ ...eventData, organizerId: req.user._id })
+    await data.save()
 
-  //   eventData.coverImage = cloudinaryResponse.secure_url
-  // }
-  const data = new Event({ ...eventData, organizerId: req.user._id })
-  await data.save()
+    const user = await User.findById(req.user._id)
+    user.organisedEvents.push(data._id)
+    await user.save()
 
-  const user = await User.findById(req.user._id)
-  user.organisedEvents.push(data._id)
-  await user.save()
+    res.status(201).json({
+      success: true,
+      message: 'Event created Successfully',
+      data: data,
+    })
+  } else {
+    const data = new Event({ ...eventData, organizerId: req.user._id })
+    await data.save()
 
-  res.send({ success: true, message: 'Successfully added',data })
+    const user = await User.findById(req.user._id)
+    user.organisedEvents.push(data._id)
+    await user.save()
+
+    res.status(201).json({
+      success: true,
+      message: 'Event created successfully',
+      data: data,
+    })
+  }
 }
 
 exports.updateEvent = async (req, res) => {
   const { eventId } = req.params
   const { ...rest } = req.body
   const userId = req.user._id
+
   const event = await Event.findOne({ _id: eventId, organizerId: userId })
+
   if (!event) {
     return res
       .status(403)
       .json({ message: 'You are not authorized to update this event' })
   }
+  if (req.file) {
+    rest.image = req.file.path
+  }
+
   const updatedEvent = await Event.findOneAndUpdate(
     { _id: eventId },
     { $set: rest },
     { new: true },
   )
+
   res.json(updatedEvent)
 }
 
