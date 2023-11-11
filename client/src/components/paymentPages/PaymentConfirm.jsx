@@ -9,7 +9,7 @@ export default function PaymentConfirm() {
 
   const allAttendeesData = location.state;
 
-  const {eventId}=useParams()
+  const { eventId } = useParams();
   const createOrder = async () => {
     try {
       const response = await axios.post(
@@ -40,9 +40,9 @@ export default function PaymentConfirm() {
     }
   };
 
-  useEffect(()=>{
-    console.log(allAttendeesData)
-  },[])
+  useEffect(() => {
+    console.log(allAttendeesData);
+  }, []);
 
   const finalTicketPrice = (allAttendeesData) => {
     let sum = 0;
@@ -53,19 +53,40 @@ export default function PaymentConfirm() {
   };
 
   return (
-    <div>
-      <h1>Razorpay Payment Demo</h1>
-      <ul>
-        {allAttendeesData.map((attendee) => (
-          <li key={attendee.name}>
-            {attendee.name}-{attendee.ticketCategory.name}-
-            {attendee.ticketCategory.price}
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-[500px] mx-auto p-8 border rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4 px-4">Payment Confirmation!!</h1>
+        <div className="flex font-extrabold justify-between border-b-2 border-gray-300 p-4">
+          <span>Name</span>
+          <span>Category</span>
+          <span>Price</span>
+        </div>
+        <ul className="mb-4">
+          {allAttendeesData.map((attendee) => (
+            <div
+              className="flex justify-between border-b-2 border-gray-300 p-4"
+              key={attendee.name}
+            >
+              <span>{attendee.name}</span>
+              <span>{attendee.ticketCategory.name}</span>
+              <span>{attendee.ticketCategory.price}</span>
+            </div>
+          ))}
+        </ul>
 
-      {<div>Total Amount:{finalTicketPrice(allAttendeesData)}</div>}
-      <button onClick={createOrder}>Create Order</button>
+        <div className="mb-4 px-4">
+          <p className="font-bold">
+            Total Amount: ${finalTicketPrice(allAttendeesData)}
+          </p>
+        </div>
+
+        <button
+          onClick={createOrder}
+          className="bg-darkBlue text-white ml-4 px-4 py-2 rounded "
+        >
+          Book Tickets
+        </button>
+      </div>
     </div>
   );
 }

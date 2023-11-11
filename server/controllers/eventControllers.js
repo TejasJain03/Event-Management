@@ -4,6 +4,7 @@ const Ticket = require('../models/ticket')
 const Event = require('../models/event')
 const ExpressError = require('../middleware/ExpressError')
 const { cloudinary } = require('../config/cloudinary')
+const Category = require('../models/category')
 
 exports.showAllEvent = async (req, res) => {
   // const userId = req.user._id
@@ -51,7 +52,7 @@ exports.showUserEvent = async (req, res) => {
     _id: event._id,
     name: event.name,
     description: event.description,
-    image:event.image,
+    image: event.image,
     date: event.date,
     location: event.location,
     ticketAvailable: event.ticketAvailable,
@@ -91,10 +92,10 @@ exports.createEvent = async (req, res) => {
     user.organisedEvents.push(data._id)
     await user.save()
 
-    res.status(201).json({
+    res.status(201).send({
       success: true,
       message: 'Event created successfully',
-      data: data,
+      data: data._id,
     })
   }
 }
@@ -121,7 +122,7 @@ exports.updateEvent = async (req, res) => {
     { new: true },
   )
 
-  res.json(updatedEvent)
+  res.json({success:true,message:"Event Updated Successfully"})
 }
 
 exports.deleteEvent = async (req, res) => {
@@ -132,6 +133,7 @@ exports.deleteEvent = async (req, res) => {
 
   const attendeeIds = event.attendees
   const ticketIds = event.tickets
+  const categories = event.ticketCategories
 
   await Event.findByIdAndDelete(eventId)
   const user = await User.findByIdAndUpdate(
@@ -140,9 +142,10 @@ exports.deleteEvent = async (req, res) => {
   )
 
   await user.save()
+  const category = await Category.deleteMany({ _id: { $in: categories } })
   const attendee = await Attendee.deleteMany({ _id: { $in: attendeeIds } })
 
   const ticket = await Ticket.deleteMany({ _id: { $in: ticketIds } })
 
-  res.json({ user })
+  res.send({ success:true,message:"Event deleted Successfully" })
 }

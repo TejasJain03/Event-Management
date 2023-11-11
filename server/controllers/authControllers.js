@@ -49,6 +49,7 @@ exports.loginUser = async (req, res) => {
       error.details.map((el) => el.message).join(','),
     )
   }
+  
 
   const user = await User.findOne({ email })
 
@@ -56,7 +57,7 @@ exports.loginUser = async (req, res) => {
     throw new ExpressError(401, false, 'Please register first!')
   }
 
-  const passwordMatch =  bcrypt.compare(password, user.password)
+  const passwordMatch = await bcrypt.compare(password, user.password)
 
   if (!passwordMatch) {
     throw new ExpressError(
@@ -65,6 +66,7 @@ exports.loginUser = async (req, res) => {
       'Incorrect Credentials!!! Please try again',
     )
   }
+
   generateToken(res, user._id)
 
   res.status(201).send({

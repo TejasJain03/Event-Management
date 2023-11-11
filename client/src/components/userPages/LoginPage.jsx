@@ -98,8 +98,8 @@ export default function LoginPage() {
             <button
               type="submit"
               className="bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={()=>{
-                navigate('/')
+              onClick={() => {
+                navigate("/");
               }}
             >
               Go to Home page

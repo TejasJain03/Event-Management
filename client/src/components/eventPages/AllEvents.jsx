@@ -21,12 +21,11 @@ export default function Home() {
         toast.success(response.data);
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.response.data.message, {
-          autoClose: 2000,
-          onClose: () => {
-            navigate("/login");
-          },
+          autoClose: 1000,
+          onClose:()=>{
+            navigate('/login')
+          }
         });
       });
   };
@@ -85,15 +84,16 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <div className="w-full h-20 flex justify-center items-center bg-red-200">
+      <div className="w-full h-20 flex justify-center items-center ">
         <button
           onClick={handleSubmit}
-          className="bg-darkBlue text-white font-bold py-2 px-4 rounded hover:bg-darkBlue"
+          className="bg-darkBlue text-white font-bold py-2 px-4 rounded"
         >
           Create Event
         </button>
       </div>
       <Footer />
+      <ToastContainer/>
     </div>
   );
 }

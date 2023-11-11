@@ -50,14 +50,13 @@ export default function UserEvents() {
 
   return (
     <div>
-
-      <Navbar/>
-      <h1 className="text-2xl font-bold mb-4">Event List</h1>
-      <div className="flex flex-wrap gap-4 mx-1">
+      <Navbar />
+      <h1 className="text-5xl font-bold mb-4 text-center p-6">My Events</h1>
+      <div className="flex flex-wrap justify-evenly gap-4 p-4 mx-1">
         {events.map((event) => (
           <div
             key={event._id}
-            className="w-full sm:w-1/2 md:w-1/3 mb-4 p-4 border bg-background border-gray-300 rounded-md"
+            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4  p-4 border bg-background shadow-xl border-gray-300 rounded-md"
           >
             <h2 className="text-lg font-bold mb-2">{event.name}</h2>
             <div className="w-full h-72 border-gray-300 border">
@@ -83,7 +82,7 @@ export default function UserEvents() {
                 onClick={() => {
                   navigate("/manageevent", { state: event._id });
                 }}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-darkBlue text-white px-4 py-2 rounded "
               >
                 Manage Event
               </button>
@@ -91,7 +90,7 @@ export default function UserEvents() {
                 onClick={() => {
                   navigate(`/aboutevent/${event._id}`, { state: event._id });
                 }}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="bg-green-600 text-white px-4 py-2 rounded "
               >
                 Know More
               </button>
@@ -100,22 +99,24 @@ export default function UserEvents() {
         ))}
       </div>
 
-      <button
-        onClick={() => {
-          navigate(`/createevent`);
-        }}
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-      >
-        Create a New Event
-      </button>
-      <button
-        onClick={handleSubmit}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-      >
-        Logout
-      </button>
+      <div className="w-full h-40 flex flex-col gap-y-10 sm:flex-row justify-center items-center sm:gap-x-10">
+        <button
+          onClick={() => {
+            navigate(`/createevent`);
+          }}
+          className="bg-darkBlue text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Create a New Event
+        </button>
+        <button
+          onClick={handleSubmit}
+          className="bg-red-500 duration-300 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Logout
+        </button>
+      </div>
       <ToastContainer />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

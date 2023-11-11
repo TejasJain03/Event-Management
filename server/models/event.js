@@ -10,6 +10,9 @@ const eventSchema = new mongoose.Schema({
   date: {
     type: Date,
   },
+  time:{
+    type:String,
+  },
   location: String,
   organizerId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +26,7 @@ const eventSchema = new mongoose.Schema({
     type:mongoose.Schema.ObjectId,
     ref:"Category"
   }],
+
   ticketAvailable:Number,
   image:{type:String},
   isPublic:Boolean,

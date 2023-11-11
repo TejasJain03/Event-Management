@@ -1,9 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useNavigate } from "react-router-dom";
 import Navbar from "./utils/Navbar";
-import { Link as ScrollLink } from "react-scroll";
 import Footer from "./utils/Footer";
 import { useEffect, useState } from "react";
+import Card from "./utils/Card";
 import HashLoader from "react-spinners/HashLoader";
+import Section from "./utils/Section";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,9 +18,11 @@ export default function Home() {
 
     return () => clearTimeout(timeout);
   }, []);
+
   const handlesubmit = () => {
     navigate("/showallevent");
   };
+
   return (
     <>
       {loading ? (
@@ -28,74 +32,54 @@ export default function Home() {
       ) : (
         <>
           <Navbar />
+          <div className="flex flex-col  justify-between items-center py-14 px-4 lg:px-10">
+            <div className="flex items-center h-[40vh] gradient-text mb-8 lg:mb-0 lg:mr-10">
+              Your Event, Our Expertise, Unforgettable Moments
+            </div>
+            <div className="flex flex-col lg:flex-row justify-evenly w-full  lg:gap-y-8">
+              <Card
+                id="AboutUs"
+                title="About Us"
+                content="Welcome to EventEase - your go-to platform for hassle-free event management! From event creation to ticket collection, we've got you covered. Easily create and customize your events with a user-friendly interface...."
+                linkTo="AboutUs"
+              />
+              <Card
+                id="Ticketing"
+                title="Ticket Registration"
+                content="Welcome to EventEase - your premier destination for seamless event management! Navigate the world of event creation and ticket collection effortlessly with our user-friendly platform...."
+                linkTo="Ticketing"
+              />
+              <Card
+                id="Discover"
+                title="Discover Events"
+                content="Welcome to EventEase - your premier destination for seamless event management! Navigate the world of event creation and ticket collection effortlessly with our user-friendly platform"
+                linkTo="Discover"
+              />
+            </div>
+          </div>
 
-          <div className="flex py-14 px-4">
-            <div className="w-auto bg-red-300 "> Tag Line</div>
-            <div className="flex   w-auto justify-center gap-x-20 gap-y-8  ">
-              <div className="w-80 h-96 rounded-2xl bg-background p-4 shadow-xl ">
-                <h1 className="text-center text-2xl p-auto h-10 border-b-2 border-accent">
-                  About Us
-                </h1>
-                <p className="text-left text-lg">
-                  Welcome to [Your Company Name] – your go-to platform for
-                  hassle-free event management! From event creation to ticket
-                  collection, we've got you covered. Easily create and customize
-                  your events with a user-friendly interface....
-                </p>
-                <ScrollLink to="AboutUs" smooth={true} duration={1000}>
-                  <button>Read More...</button>
-                </ScrollLink>
-              </div>
-              <div className="w-80 h-96 rounded-2xl bg-background p-4 shadow-xl">
-                <h1 className="text-center text-2xl p-auto h-10 border-b-2 border-accent">
-                  Ticket Registration
-                </h1>
-                <p className="text-left text-lg"></p>
-                <ScrollLink to="Ticketing" smooth={true} duration={1000}>
-                  <button>Read More...</button>
-                </ScrollLink>
-              </div>
-              <div className="w-80 h-96 rounded-2xl bg-background p-4 shadow-xl">
-                <h1 className="text-center text-2xl p-auto h-10 border-b-2 border-accent">
-                  Discover Events
-                </h1>
-                <p className="text-left text-lg"></p>
-                <ScrollLink to="Ticketing" smooth={true} duration={1000}>
-                  <button>Read More...</button>
-                </ScrollLink>
-              </div>
-            </div>
-          </div>
-          <div className="">
-            <div
-              className="bg-darkBlue/40 h-80 my-10 mx-32 hover:mx-4 duration-300 rounded-3xl"
+          <div className="mx-4 lg:mx-32">
+            <Section
               id="AboutUs"
-            >
-              <img src="" alt="" />
-              <div className="flex">
-                <h1>About Us</h1>
-                <p>Randome</p>
-              </div>
-            </div>
-            <div
-              className="bg-darkBlue/40 h-80 my-10 mx-32 hover:mx-4 duration-300 rounded-3xl"
+              title="About Us"
+              content="Welcome to EventEase - your premier destination for seamless event management! Navigate the world of event creation and ticket collection effortlessly with our user-friendly platform. Craft and personalize your events with ease, whether it's a corporate conference, vibrant concert, or a community gathering. At EventEase, we prioritize simplicity in the ticketing and registration process. Our intuitive interface ensures a smooth experience for both organizers and attendees. Easily create, customize, and manage event tickets, enhancing the overall journey for participants. Join EventEase, where we transform event planning into a stress-free adventure. From hassle-free ticketing to effortless registration, we're here to make your events unforgettable. Let's elevate your gatherings with the ease and sophistication they deserve!"
+            />
+
+            <Section
               id="Ticketing"
-            >
-              <img src="" alt="" />
-              <div className="flex">
-                <h1>About Us</h1>
-                <p>Randome</p>
-              </div>
-            </div>
-            <div className="bg-darkBlue/40 h-80 my-10 mx-32 hover:mx-4 duration-300 rounded-3xl">
-              <img src="" alt="" />
-              <div className="flex">
-                <h1>About Us</h1>
-                <p>Randome</p>
-              </div>
-            </div>
+              title="Ticketing and Registration"
+              content="Welcome to EventEase - your premier destination for seamless event management! Navigate the world of event creation and ticket collection effortlessly with our user-friendly platform. Craft and personalize your events with ease, whether it's a corporate conference, vibrant concert, or a community gathering. At EventEase, we prioritize simplicity in the ticketing and registration process. Our intuitive interface ensures a smooth experience for both organizers and attendees. Easily create, customize, and manage event tickets, enhancing the overall journey for participants. Join EventEase, where we transform event planning into a stress-free adventure. From hassle-free ticketing to effortless registration, we're here to make your events unforgettable. Let's elevate your gatherings with the ease and sophistication they deserve!"
+            />
+
+            <Section
+              id="Discover"
+              title="Discover Events"
+              content="Welcome to EventEase - your premier destination for seamless event management! Navigate the world of event creation and ticket collection effortlessly with our user-friendly platform. Craft and personalize your events with ease, whether it's a corporate conference, vibrant concert, or a community gathering. At EventEase, we prioritize simplicity in the ticketing and registration process. Our intuitive interface ensures a smooth experience for both organizers and attendees. Easily create, customize, and manage event tickets, enhancing the overall journey for participants. Join EventEase, where we transform event planning into a stress-free adventure. From hassle-free ticketing to effortless registration, we're here to make your events unforgettable. Let's elevate your gatherings with the ease and sophistication they deserve!"
+              buttonText="Discover Events"
+              onClick={handlesubmit}
+            />
           </div>
-          <button onClick={handlesubmit}>showEvents</button>
+
           <Footer />
         </>
       )}
