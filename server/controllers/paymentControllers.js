@@ -1,15 +1,15 @@
 const Razorpay = require('razorpay')
 const crypto = require('crypto')
-const Event=require("../models/event")
-const Ticket=require("../models/ticket")
-const Attendee=require("../models/attendee")
-const {attendeeRegistrationSchema}=require("../schema")
-const sendEmail=require('../utils/ticketMail')
-const generateRandomID=require("../utils/getRandomId")
+const Event = require('../models/event')
+const Ticket = require('../models/ticket')
+const Attendee = require('../models/attendee')
+const { attendeeRegistrationSchema } = require('../schema')
+const sendEmail = require('../utils/ticketMail')
+const generateRandomID = require('../utils/getRandomId')
 
 const razorpay = new Razorpay({
-  key_id: 'rzp_test_zNM3kqHc0GU30R',
-  key_secret: 'UKTbLcz90bxadSWJrS76VTCm',
+  key_id: process.env.PAYMENT_API_KEY,
+  key_secret: process.env.PAYMENT_SECRET_KEY,
 })
 
 exports.creatOrder = async (req, res) => {
@@ -21,6 +21,10 @@ exports.creatOrder = async (req, res) => {
 
   const response = await razorpay.orders.create(options)
   res.json(response)
+}
+
+exports.getKey=async(req,res)=>{
+  res.send({key:process.env.PAYMENT_API_KEY})
 }
 
 exports.paymentVerification = async (req, res) => {

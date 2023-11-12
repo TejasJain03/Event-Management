@@ -52,18 +52,18 @@ export default function Home() {
             <h1 className="font-bold text-3xl">{event.name}</h1>
           </div>
           <div className=" flex flex-col justify-center p-4 gap-y-4 border-b-2 border-gray-300">
-            <h1>Organized by:{event.organizerId && event.organizerId.name}</h1>
-            <h1 className="font-bold">Location:{event.location}</h1>
+            <h1 className="text-gray-600 text-xl">Organized by: {event.organizerId && event.organizerId.name}</h1>
+            <h1 className=" text-gray-600 text-xl">Location: {event.location}</h1>
             {event && event.date && (
-              <h1 className="font-bold">Date: {event.date.slice(0, 10)}</h1>
+              <h1 className=" text-gray-600 text-xl">Date: {event.date.slice(0, 10)}</h1>
             )}
-            <h1 className="font-bold">At:{event.time && event.time}</h1>
+            <h1 className=" text-gray-600 text-xl">At: {event.time && event.time}</h1>
           </div>
           <div>
-            <h1 className="font-bold border-b border-gray-300 p-4">
+            <h1 className=" text-gray-600 text-xl border-b border-gray-300 p-4">
               Description
             </h1>
-            <p className="p-4">{event.description}</p>
+            <p className="p-4 text-gray-600">{event.description}</p>
           </div>
           <div>
             <table className="w-full border-collapse">

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from '../axios'
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export default function SignupPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/register", formData)
+      .post("/register", formData)
       .then((response) => {
         console.log(response);
         if (response.data.success) {

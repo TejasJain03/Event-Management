@@ -11,7 +11,7 @@ export default function Navbar() {
             onClick={() => {
               navigate("/");
             }}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold cursor-pointer"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold cursor-pointer"
           >
             EventEase
           </li>
@@ -29,6 +29,7 @@ export default function Navbar() {
               onClick={() => {
                 navigate("/login");
               }}
+              title="Login"
             >
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAP9JREFUSEvFlOsNwjAMhO82gUmgm8AkwCSwCd2EMonRSU3VpmkcGir8q1Kj++zzg9g4uLE+igBmtgNwAXAC0AFoAdxI6jsbLsDMjgCeCRWJn0kKthglgBcAVZCKjuR+NcDMZMndcaHJVZGtwMyuvfc5hnqhd8nwAEv+j8XUh8dagLxXg7fpgbLKTJF+Z/3XA3eKekjYA1mmCCNavwfeInn/iyrwRGr2QON3ABCsGWuFk/H+ekz7xmrBlqYnTnrxbMwscqbGc2s2VSlA7vZ4gNltmgAKT4MHmZyOGCDfdeBqoiXZBIEYUGNP0JzYFAOsJvUha3LQ/e+i/aSaX4jkND45MFsZqs//kwAAAABJRU5ErkJggg==" />
             </li>

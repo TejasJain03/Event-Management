@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../axios"
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,9 @@ export default function Home() {
 
   const handleSubmit = () => {
     axios
-      .get("http://localhost:5000/api/createevent", {
-        withCredentials: true,
-      })
+      .get("/createevent")
       .then((response) => {
-        toast.success(response.data);
+        navigate('/createevent')
       })
       .catch((err) => {
         toast.error(err.response.data.message, {
@@ -32,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/showallevent")
+      .get("/showallevent")
       .then((response) => {
         console.log(response.data);
         setEvents(response.data);
@@ -45,14 +43,13 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      <h1 className="text-2xl text-center  font-bold m-4">Event List</h1>
       <div className="flex flex-wrap gap-x-4 gap-y-4 m-4">
         {events.slice(0, 3).map((event) => (
           <div
             key={event._id}
-            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-[600px] h-[500px] p-4 border bg-background border-gray-300 rounded-md"
+            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-[600px] h-[550px] p-4 border bg-background border-gray-300 rounded-md"
           >
-            <h2 className="text-lg font-bold mb-2">{event.name}</h2>
+            <h2 className="text-2xl font-bold mb-2">{event.name}</h2>
             <div className="w-full h-72 border-gray-300 border">
               {event.image ? (
                 <img
@@ -66,11 +63,11 @@ export default function Home() {
                 </p>
               )}
             </div>
-            <p className="text-gray-600 mb-2">Location: {event.location}</p>
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600  mb-2 p-2 text-xl">Location: <span className="">{event.location}</span></p>
+            <p className="text-gray-600  mb-2 p-2 text-xl">
               Date: {event.date.slice(0, 10)}
             </p>
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600  mb-2 p-2 text-xl">
               Organizer: {event.organizerId.name}
             </p>
             <button

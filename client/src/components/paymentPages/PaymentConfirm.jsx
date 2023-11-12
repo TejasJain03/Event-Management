@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-key */
-import axios from "axios";
-import { useEffect } from "react";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import axios from "../axios"
 
 export default function PaymentConfirm() {
   const location = useLocation();
+  const [key,setKey]=useState()
 
   const allAttendeesData = location.state;
 
@@ -13,10 +13,7 @@ export default function PaymentConfirm() {
   const createOrder = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/create-order",
-        {
-          amount: finalTicketPrice(allAttendeesData),
-        }
+        "/create-order",
       );
 
       const callbackUrl = `http://localhost:5000/api/paymentverification?allAttendeesData=${encodeURIComponent(
@@ -24,7 +21,7 @@ export default function PaymentConfirm() {
       )}&eventId=${eventId}`;
 
       const options = {
-        key: "rzp_test_zNM3kqHc0GU30R",
+        key: key,
         amount: response.data.amount,
         currency: response.data.currency,
         name: "Event Management",
@@ -41,7 +38,13 @@ export default function PaymentConfirm() {
   };
 
   useEffect(() => {
-    console.log(allAttendeesData);
+    axios.get("http://localhost:5000/api/get-key")
+    .then((response)=>{
+      setKey(response.data.key)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }, []);
 
   const finalTicketPrice = (allAttendeesData) => {

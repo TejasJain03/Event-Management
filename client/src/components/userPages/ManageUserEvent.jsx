@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,9 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/showevent/${eventId}`, {
-        withCredentials: true,
-      })
+      .get(`/showevent/${eventId}`)
       .then((response) => {
         console.log(response.data);
         setEvent(response.data);
@@ -41,12 +39,17 @@ export default function Home() {
 
   const handleDelete = (eventId) => {
     axios
-      .delete(`http://localhost:5000/api/deleteevent/${eventId}`,{withCredentials:true})
+      .delete(`/deleteevent/${eventId}`)
       .then((response) => {
-        toast.success(response.data.message,{autoClose:200,onClose:()=>{navigate('/showuserevents')}});
+        toast.success(response.data.message, {
+          autoClose: 200,
+          onClose: () => {
+            navigate("/showuserevents");
+          },
+        });
       })
       .catch((err) => {
-        console.log(err.response)
+        console.log(err.response);
         toast.error(err.respose);
       });
   };
@@ -57,10 +60,7 @@ export default function Home() {
 
   const handleCheckIn = (attendeeId) => {
     axios
-      .post(
-        `http://localhost:5000/api/event/${eventId}/check-in/${attendeeId}`,
-        { withCredentials: true }
-      )
+      .post(`/event/${eventId}/check-in/${attendeeId}`)
       .then((response) => {
         console.log(response.data);
         const updatedAttendees = attendees.map((attendee) => {
@@ -97,19 +97,27 @@ export default function Home() {
         )}
 
         <div className="my-6 w-auto">
-          <div className="flex gap-4 border-b-2 border-gray-300 p-4 w-96 justify-center">
+          <div className="flex gap-4 border-b-2 border-gray-300 p-4 w-[600px] items-center justify-center">
             {event.image && (
-              <img src={event.image} className="h-10 w-10" alt="" />
+              <img src={event.image} className="h-20 w-20" alt="" />
             )}
             <h1 className="font-bold text-3xl">{event.name}</h1>
           </div>
           <div className=" flex flex-col justify-center p-4 gap-y-4 border-b-2 border-gray-300">
-            <h1>Organized by:{event.organizerId && event.organizerId.name}</h1>
-            <h1 className="font-bold">Location:{event.location}</h1>
+            <h1 className="text-xl text-gray-600">
+              Organized by: {event.organizerId && event.organizerId.name}
+            </h1>
+            <h1 className=" text-xl text-gray-600">
+              Location: {event.location}
+            </h1>
             {event && event.date && (
-              <h1 className="font-bold">Date: {event.date.slice(0, 10)}</h1>
+              <h1 className=" text-xl text-gray-600">
+                Date: {event.date.slice(0, 10)}
+              </h1>
             )}
-            <h1 className="font-bold">At:{event.time && event.time}</h1>
+            <h1 className=" text-xl text-gray-600">
+              At: {event.time && event.time}
+            </h1>
           </div>
         </div>
         <button
@@ -123,7 +131,7 @@ export default function Home() {
         <>
           <div className="w-full flex flex-col justify-center items-center p-10">
             <h1 className="text-black text-2xl mb-4">Attendee Details</h1>
-            <div className="w-full hidden flex-col sm:flex-row sm:flex  bg-secondary p-4">
+            <div className="w-full hidden flex-col sm:flex-row sm:flex bg-secondary p-4">
               <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
                 <h1 className="text-lg text-black text-center">Name</h1>
               </div>
@@ -141,50 +149,57 @@ export default function Home() {
               </div>
             </div>
             <div className="p-4 mx-4 w-full">
-              {attendees.map((attendee) => (
-                <div
-                  key={attendee._id}
-                  className="flex flex-col sm:flex-row items-center justify-between mb-2 border-b   border-secondary   bg-white  p-4 rounded-md"
-                >
-                  <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
-                    <h1 className="text-gray-900 text-lg text-center mb-2 p-2 rounded-md">
-                      {attendee.name}
-                    </h1>
+              {attendees.length > 0 ? (
+                attendees.map((attendee) => (
+                  <div
+                    key={attendee._id}
+                    className="flex flex-col sm:flex-row items-center justify-between mb-2 border-b border-secondary bg-white p-4 rounded-md"
+                  >
+                    <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
+                      <h1 className="text-gray-900 text-lg text-center mb-2 p-2 rounded-md">
+                        {attendee.name}
+                      </h1>
+                    </div>
+                    <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
+                      <h1 className="text-gray-900 text-lg text-center mb-2">
+                        {attendee.email}
+                      </h1>
+                    </div>
+                    <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
+                      <h1 className="text-gray-900 text-lg text-center mb-2">
+                        {attendee.phone}
+                      </h1>
+                    </div>
+                    <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
+                      <h1 className="text-gray-900 text-lg text-center mb-2">
+                        {attendee.attendeeId}
+                      </h1>
+                    </div>
+                    <div className="w-full flex justify-center sm:w-1/5">
+                      <button
+                        className={`px-4 py-2 rounded-lg text-white bg-darkBlue hover:bg-green-600 hover:cursor-pointer disabled:bg-green-600 disabled:cursor-not-allowed ${
+                          attendee.checkedIn ? "disabled" : ""
+                        }`}
+                        disabled={attendee.checkedIn}
+                        onClick={() => {
+                          handleCheckIn(attendee._id);
+                        }}
+                      >
+                        {attendee.checkedIn ? "Checked In" : "Check-In"}
+                      </button>
+                    </div>
                   </div>
-                  <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
-                    <h1 className="text-gray-900 text-lg text-center mb-2">
-                      {attendee.email}
-                    </h1>
-                  </div>
-                  <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
-                    <h1 className="text-gray-900 text-lg text-center mb-2">
-                      {attendee.phone}
-                    </h1>
-                  </div>
-                  <div className="w-full sm:w-1/5 mb-2 sm:mb-0">
-                    <h1 className="text-gray-900 text-lg text-center mb-2">
-                      {attendee.attendeeId}
-                    </h1>
-                  </div>
-                  <div className="w-full flex justify-center sm:w-1/5">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-white bg-darkBlue hover:bg-green-600 hover:cursor-pointer disabled:bg-green-600 disabled:cursor-not-allowed ${
-                        attendee.checkedIn ? "disabled" : ""
-                      }`}
-                      disabled={attendee.checkedIn}
-                      onClick={() => {
-                        handleCheckIn(attendee._id);
-                      }}
-                    >
-                      {attendee.checkedIn ? "Checked In" : "Check-In"}
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-center text-gray-700">
+                  No attendees available
+                </p>
+              )}
             </div>
           </div>
         </>
       )}
+
       <div className="flex justify-center gap-x-10 my-4">
         <button
           className="bg-darkBlue p-3 font-bold rounded-lg  text-white"
@@ -196,7 +211,9 @@ export default function Home() {
         </button>
         <button
           className="bg-red-600 p-3 font-bold rounded-lg  text-white"
-          onClick={()=>{handleDelete(eventId)}}
+          onClick={() => {
+            handleDelete(eventId);
+          }}
         >
           Delete Event
         </button>

@@ -1,4 +1,3 @@
-import axios from "axios";
 import {useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
+import axios from '../axios'
 
 export default function CreateEvent() {
   const [event, setEvent] = useState({});
@@ -28,7 +28,7 @@ export default function CreateEvent() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/createevent",
+        "/createevent",
         event,
         {
           withCredentials: true,

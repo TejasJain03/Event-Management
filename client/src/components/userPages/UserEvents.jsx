@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../axios"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../utils/Navbar";
@@ -12,7 +12,7 @@ export default function UserEvents() {
 
   const handleSubmit = () => {
     axios
-      .get("http://localhost:5000/api/logout", { withCredentials: true })
+      .get("/logout", { withCredentials: true })
       .then((response) => {
         toast.success(response.data.message, {
           autoClose: 1000,
@@ -33,7 +33,7 @@ export default function UserEvents() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/showuserevent", { withCredentials: true })
+      .get("/showuserevent")
       .then((response) => {
         console.log(response.data);
         setEvents(response.data);
@@ -52,11 +52,11 @@ export default function UserEvents() {
     <div>
       <Navbar />
       <h1 className="text-5xl font-bold mb-4 text-center p-6">My Events</h1>
-      <div className="flex flex-wrap justify-evenly gap-4 p-4 mx-1">
+      <div className="flex  justify-evenly p-4 mx-1">
         {events.map((event) => (
           <div
             key={event._id}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4  p-4 border bg-background shadow-xl border-gray-300 rounded-md"
+            className="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4  p-4 border bg-background shadow-xl border-gray-300 rounded-md"
           >
             <h2 className="text-lg font-bold mb-2">{event.name}</h2>
             <div className="w-full h-72 border-gray-300 border">
@@ -72,8 +72,10 @@ export default function UserEvents() {
                 </p>
               )}
             </div>
-            <p className="text-gray-600 mb-2">Location: {event.location}</p>
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
+              Location: <span className="">{event.location}</span>
+            </p>
+            <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
               Date: {event.date.slice(0, 10)}
             </p>
 

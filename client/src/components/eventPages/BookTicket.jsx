@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
+import axios from "../axios"
 
 export default function BookTicket() {
   const location = useLocation();
@@ -20,7 +20,7 @@ export default function BookTicket() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/aboutevent/${eventId}`)
+      .get(`/aboutevent/${eventId}`)
       .then((response) => {
         setEvent(response.data);
         setOrganizer(response.data.organizerId);

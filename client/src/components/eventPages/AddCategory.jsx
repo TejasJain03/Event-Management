@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "../axios";
 
-export default function AddCategory({eventId}) {
+export default function AddCategory({ eventId }) {
   const [categories, setCategories] = useState([{ name: "", price: "" }]);
-  const navigate=useNavigate()
 
   const handleInputChange = (index, e) => {
     const { name, value } = e.target;
@@ -22,14 +20,15 @@ export default function AddCategory({eventId}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:5000/api/event/${eventId}/createcategory`,categories)
-    .then((response)=>{
-      toast.success(response.data.message)
-    })
-    .catch((err)=>{
-        toast.error(err.response.data.message)
-    })
-    console.log('Submitted:', categories);
+    axios
+      .post(`/event/${eventId}/createcategory`, categories)
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+    console.log("Submitted:", categories);
   };
   return (
     <>
@@ -76,7 +75,7 @@ export default function AddCategory({eventId}) {
           Submit
         </button>
       </form>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

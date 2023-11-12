@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,21 +5,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
+import axios from "../axios"
 
 export default function UpdateEvent() {
   const [event, setEvent] = useState({});
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState();
-  const [category,setCategory]=useState(false)
+  const [category, setCategory] = useState(false);
   const [ticketCategories, setTicketCategories] = useState([]);
   const navigate = useNavigate();
   const { eventId } = useParams();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/showevent/${eventId}`, {
-        withCredentials: true,
-      })
+      .get(`/showevent/${eventId}`)
       .then((response) => {
         console.log(response.data);
         setEvent(response.data);
@@ -44,7 +42,7 @@ export default function UpdateEvent() {
   const handleCategoryDelete = (categoryId) => {
     axios
       .delete(
-        `http://localhost:5000/api/event/${eventId}/deletecategory/${categoryId}`
+        `/event/${eventId}/deletecategory/${categoryId}`
       )
       .then((response) => {
         console.log(response.data);
@@ -62,7 +60,7 @@ export default function UpdateEvent() {
     try {
       console.log(event);
       await axios.put(
-        `http://localhost:5000/api/updateevent/${eventId}`,
+        `/updateevent/${eventId}`,
         event,
         {
           withCredentials: true,
@@ -208,25 +206,31 @@ export default function UpdateEvent() {
               </span>
               <div className="p-4 text-center w-20 rounded-xl mb-2">Action</div>
             </div>
-            {ticketCategories.map((category) => (
-              <div
-                className="flex flex-row justify-between w-full border-b-2 border-black/20 mb-2"
-                key={category._id}
-              >
-                <span className="p-4  text-center w-20 rounded-xl mb-2">
-                  {category.name}
-                </span>
-                <span className="p-4  text-center w-20 rounded-xl mb-2">
-                  {category.price}
-                </span>
-                <button
-                  className="p-4 bg-red-600 text-center w-20 rounded-xl mb-2"
-                  onClick={()=>{handleCategoryDelete(category._id)}}
+            {ticketCategories ? (
+              ticketCategories.map((category) => (
+                <div
+                  className="flex flex-row justify-between w-full border-b-2 border-black/20 mb-2"
+                  key={category._id}
                 >
-                  Delete
-                </button>
-              </div>
-            ))}
+                  <span className="p-4  text-center w-20 rounded-xl mb-2">
+                    {category.name}
+                  </span>
+                  <span className="p-4  text-center w-20 rounded-xl mb-2">
+                    {category.price}
+                  </span>
+                  <button
+                    className="p-4 bg-red-600 text-center w-20 rounded-xl mb-2"
+                    onClick={() => {
+                      handleCategoryDelete(category._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))
+            ) : (
+              <h1>No Categories</h1>
+            )}
           </div>
 
           <button
@@ -237,10 +241,17 @@ export default function UpdateEvent() {
             {loading ? "Updating Event..." : "Update Event"}
           </button>
         </form>
-        <button onClick={()=>{
-          setCategory(true)
-        }}>Want to add a Ticket Category??</button>
-        {category && <AddCategory eventId={eventId} />}
+        <div className="flex flex-col justify-center items-center mt-10">
+          <button
+            className=" bg-darkBlue p-4 w-80 text-white rounded-md"
+            onClick={() => {
+              setCategory(true);
+            }}
+          >
+            Want to add a Ticket Category??
+          </button>
+          {category && <AddCategory eventId={eventId} />}
+        </div>
         <ToastContainer />
       </div>
       <Footer />
