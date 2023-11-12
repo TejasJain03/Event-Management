@@ -46,6 +46,10 @@ app.use("/api/event", categoryRoutes);
 app.use("/api/event", reviewRoutes);
 app.use('/api',paymentRoutes)
 
+app.get('/',(req,res)=>{
+  res.send("Event Management")
+})
+
 app.all("*", (req, res, next) => {
   try {
     throw new ExpressError(404, false, "Page not found");
