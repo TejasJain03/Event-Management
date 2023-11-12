@@ -45,14 +45,14 @@ app.use('/api/event', categoryRoutes)
 app.use('/api/event', reviewRoutes)
 app.use('/api', paymentRoutes)
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Event Management')
 })
 
 
 app.all('*', (req, res, next) => {
   try {
-    next(new ExpressError(404, false, 'Page not found'))
+    new ExpressError(404, false, 'Page not found')
   } catch (error) {
     next(error)
   }
