@@ -16,7 +16,7 @@ const cors = require('cors')
 
 const connectDB = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URL, {})
+    mongoose.connect(process.env.MONGO_URL)
     console.log('Connected to Mongo succesfully')
   } catch (err) {
     console.log('Error while connecting to database')
