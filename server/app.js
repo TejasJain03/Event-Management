@@ -28,6 +28,7 @@ const PORT = process.env.PORT || 5000
 
 const corsOptions = {
   origin: 'https://event-management-client-dun.vercel.app',
+
   credentials: true,
 }
 app.use(cors(corsOptions))
