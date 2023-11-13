@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from '../axios'
+import axios from "../axios";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -23,8 +23,7 @@ export default function SignupPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/register", formData)
+    axios.post("/api/register", formData)
       .then((response) => {
         console.log(response);
         if (response.data.success) {
@@ -122,8 +121,8 @@ export default function SignupPage() {
             <button
               type="submit"
               className="bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={()=>{
-                navigate('/')
+              onClick={() => {
+                navigate("/");
               }}
             >
               Go to Home page
