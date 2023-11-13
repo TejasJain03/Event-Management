@@ -46,7 +46,7 @@ app.use('/api/event', reviewRoutes)
 app.use('/api', paymentRoutes)
 
 app.get('/', (req, res) => {
-  res.send('Event Management')
+  res.json('Event Management')
 })
 
 
