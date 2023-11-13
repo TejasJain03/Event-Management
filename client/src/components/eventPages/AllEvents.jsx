@@ -30,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("/showallevent")
+      .get("/api/showallevent")
       .then((response) => {
         console.log(response.data);
         setEvents(response.data);
