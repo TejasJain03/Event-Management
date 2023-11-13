@@ -50,6 +50,12 @@ app.get('/', (req, res) => {
   res.json('Event Management')
 })
 
+app.get('/api', (req, res) => {
+  res.json('Event ')
+})
+
+
+
 
 app.all('*', (req, res, next) => {
   try {
