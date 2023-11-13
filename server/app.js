@@ -41,9 +41,9 @@ app.use('/api', eventRoutes)
 app.use('/api', attendeeRoutes)
 app.use('/api', authRoutes)
 app.use('/api', ticketRoutes)
+app.use('/api', paymentRoutes)
 app.use('/api/event', categoryRoutes)
 app.use('/api/event', reviewRoutes)
-app.use('/api', paymentRoutes)
 
 app.get('/', (req, res) => {
   res.json('Event Management')
