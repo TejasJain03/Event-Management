@@ -1,9 +1,14 @@
 {
-    "version": 2,
-    "routes": [
-      { "src": "/api/event/(.*)", "dest": "/api/event/$1" },
-      { "src": "/api/(.*)", "dest": "/api/$1" },
-      { "src": "/(.*)", "dest": "/$1" }
-    ]
-  }
-  
+  "version": 2,
+  "build": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/api/event/(.*)", "dest": "/api/event/$1" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
