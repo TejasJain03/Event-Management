@@ -23,7 +23,7 @@ export default function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("/login", formData)
+      .post("/api/login", formData)
       .then((response) => {
         console.log(response);
         toast.success(response.data.message, {
