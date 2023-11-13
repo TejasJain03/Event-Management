@@ -23,7 +23,8 @@ export default function SignupPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("/api/register", formData)
+    axios
+      .post("/api/register", formData)
       .then((response) => {
         console.log(response);
         if (response.data.success) {
@@ -129,11 +130,16 @@ export default function SignupPage() {
             </button>
           </div>
 
-          <p className="mt-4 text-gray-700">
-            Already a User?{" "}
-            <a href="/login" className="text-darkBlue font-bold">
+          <p className="mt-4 flex hover:cursor-pointer text-gray-700">
+            Already a User?
+            <h1
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="text-darkBlue font-bold"
+            >
               Log In
-            </a>
+            </h1>
           </p>
           {/* <ToastContainer /> */}
         </form>
