@@ -34,7 +34,7 @@ export default function LoginPage() {
         });
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         toast.error(err.response.data.message, {
           autoClose: 1000,
           onClose: () => {
@@ -103,12 +103,15 @@ export default function LoginPage() {
               Go to Home page
             </button>
           </div>
-            <p className="mt-4">
-              New here?{" "}
-              <h1 onClick={('/signup')}  className="text-darkBlue font-bold">
-                Sign Up!!
-              </h1>
-            </p>
+          <p className="mt-4 ">
+            New here?
+            <h1
+              onClick={navigate("/signup")}
+              className="text-darkBlue font-bold hover:cursor pointer"
+            >
+              Sign Up!!
+            </h1>
+          </p>
           <ToastContainer />
         </form>
       </div>
