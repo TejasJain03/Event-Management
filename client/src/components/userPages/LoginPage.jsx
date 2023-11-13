@@ -103,12 +103,12 @@ export default function LoginPage() {
               Go to Home page
             </button>
           </div>
-          <p className="mt-4">
-            New here?{" "}
-            <a href="/signup" className="text-darkBlue font-bold">
-              Sign Up!!
-            </a>
-          </p>
+            <p className="mt-4">
+              New here?{" "}
+              <h1 onClick={('/signup')}  className="text-darkBlue font-bold">
+                Sign Up!!
+              </h1>
+            </p>
           <ToastContainer />
         </form>
       </div>

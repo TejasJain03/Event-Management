@@ -25,7 +25,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/showuserevents" element={<UserEvents />} />
           <Route path="/aboutevent/:id" element={<AboutEvent />} />
           <Route path="/manageevent" element={<ManageUserEvent/>}/>
