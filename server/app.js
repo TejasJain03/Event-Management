@@ -27,7 +27,7 @@ connectDB()
 const PORT = process.env.PORT || 5000
 
 const corsOptions = {
-  origin: 'https://event-management-client-dun.vercel.app',
+  origin: 'https://event-management-client-alpha.vercel.app/',
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
