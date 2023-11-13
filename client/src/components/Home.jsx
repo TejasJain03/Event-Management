@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./utils/Navbar";
 import Footer from "./utils/Footer";
 import { useEffect, useState } from "react";
-import Card from "./utils/Card";
 import HashLoader from "react-spinners/HashLoader";
 import Section from "./utils/Section";
 
