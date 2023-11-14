@@ -37,7 +37,7 @@ export default function Home() {
       }
     };
 
-    fetchData(); // Invoke the fetchData function immediately
+    fetchData(); 
   }, []);
 
   return (
