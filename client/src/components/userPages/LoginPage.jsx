@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "../axios";
+import axiosInstance from "../axios";
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -22,8 +22,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/login", formData)
+    axiosInstance .post("/api/login", formData)
       .then((response) => {
         console.log(response);
         toast.success(response.data.message, {

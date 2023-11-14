@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect } from "react";
-import axios from "../axios"
+import axiosInstance from "../axios";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import { useNavigate } from "react-router-dom";
@@ -13,24 +13,23 @@ export default function Home() {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    axios
+    axiosInstance
       .get("/createevent")
       .then((response) => {
-        navigate('/createevent')
+        navigate("/createevent");
       })
       .catch((err) => {
         toast.error(err.response.data.message, {
           autoClose: 1000,
-          onClose:()=>{
-            navigate('/login')
-          }
+          onClose: () => {
+            navigate("/login");
+          },
         });
       });
   };
 
   useEffect(() => {
-    axios
-      .get("/api/showallevent")
+    axiosInstance.get("/api/showallevent")
       .then((response) => {
         console.log(response.data);
         setEvents(response.data);
@@ -63,7 +62,9 @@ export default function Home() {
                 </p>
               )}
             </div>
-            <p className="text-gray-600  mb-2 p-2 text-xl">Location: <span className="">{event.location}</span></p>
+            <p className="text-gray-600  mb-2 p-2 text-xl">
+              Location: <span className="">{event.location}</span>
+            </p>
             <p className="text-gray-600  mb-2 p-2 text-xl">
               Date: {event.date.slice(0, 10)}
             </p>
@@ -90,7 +91,7 @@ export default function Home() {
         </button>
       </div>
       <Footer />
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

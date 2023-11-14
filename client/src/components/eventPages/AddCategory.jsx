@@ -21,7 +21,7 @@ export default function AddCategory({ eventId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`/event/${eventId}/createcategory`, categories)
+      .post(`/api/event/${eventId}/createcategory`, categories)
       .then((response) => {
         toast.success(response.data.message);
       })
