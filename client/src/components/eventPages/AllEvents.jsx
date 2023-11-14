@@ -12,31 +12,32 @@ export default function Home() {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    axiosInstance
-      .get("/createevent")
-      .then((response) => {
-        navigate("/createevent");
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message, {
-          autoClose: 1000,
-          onClose: () => {
-            navigate("/login");
-          },
-        });
+  const handleSubmit = async () => {
+    try {
+      const response = await axiosInstance.get("/createevent");
+      navigate("/createevent");
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        autoClose: 1000,
+        onClose: () => {
+          navigate("/login");
+        },
       });
+    }
   };
 
   useEffect(() => {
-    axiosInstance.get("/api/showallevent")
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/showallevent");
         console.log(response.data);
         setEvents(response.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
+      }
+    };
+
+    fetchData(); // Invoke the fetchData function immediately
   }, []);
 
   return (

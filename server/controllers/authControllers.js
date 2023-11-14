@@ -5,7 +5,6 @@ const Review = require('../models/review')
 const generateToken = require('../utils/generateToken')
 const { userRegistrationSchema, userLoginSchema } = require('../schema')
 const jwt = require('jsonwebtoken')
-const { findById } = require('../models/ticket')
 
 exports.registerUser = async (req, res) => {
   const { name, email, password, phoneNumber } = req.body
