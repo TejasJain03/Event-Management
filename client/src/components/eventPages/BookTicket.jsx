@@ -20,7 +20,7 @@ export default function BookTicket() {
 
   useEffect(() => {
     axiosInstance
-      .get(`/aboutevent/${eventId}`)
+      .get(`/api/aboutevent/${eventId}`)
       .then((response) => {
         setEvent(response.data);
         setOrganizer(response.data.organizerId);
