@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../axios";
+
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,7 +24,10 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosInstance .post("/api/login", formData)
+    setLoading(true);
+
+    axiosInstance
+      .post("/api/login", formData)
       .then((response) => {
         console.log(response);
         toast.success(response.data.message, {
@@ -40,6 +45,9 @@ export default function LoginPage() {
             navigate("/login");
           },
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -87,10 +95,13 @@ export default function LoginPage() {
           <div className="w-full flex justify-between">
             <button
               type="submit"
-              className="bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className={`bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
               onClick={handleSubmit}
+              disabled={loading}
             >
-              Log In
+              {loading ? "Logging In..." : "Log In"}
             </button>
             <button
               type="submit"

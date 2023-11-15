@@ -95,7 +95,7 @@ exports.createEvent = async (req, res) => {
     res.status(201).send({
       success: true,
       message: 'Event created successfully',
-      data: data._id,
+      data: data,
     })
   }
 }

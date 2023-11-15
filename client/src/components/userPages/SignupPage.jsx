@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ export default function SignupPage() {
     password: "",
     phoneNumber: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,15 +26,18 @@ export default function SignupPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosInstance.post("/api/register", formData)
+    setLoading(true);
+
+    axiosInstance
+      .post("/api/register", formData)
       .then((response) => {
-        console.log(response);
-        if (response.data.success) {
-          navigate("/login");
-        }
+        toast.success(response.data.message,{autoClose:200,onClose:()=>{navigate('/login')}});
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        toast.error(error.response.data.message,{autoClose:200});
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -113,10 +119,13 @@ export default function SignupPage() {
           <div className="w-full flex justify-between">
             <button
               type="submit"
-              className="bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className={`bg-darkBlue text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
               onClick={handleSubmit}
+              disabled={loading}
             >
-              Sign Up
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
             <button
               type="submit"
@@ -129,7 +138,7 @@ export default function SignupPage() {
             </button>
           </div>
 
-          <p className="mt-4 flex hover:cursor-pointer text-gray-700">
+          <div className="mt-4 flex hover:cursor-pointer text-gray-700">
             Already a User?
             <h1
               onClick={() => {
@@ -139,8 +148,8 @@ export default function SignupPage() {
             >
               Log In
             </h1>
-          </p>
-          {/* <ToastContainer /> */}
+          </div>
+          <ToastContainer />
         </form>
       </div>
     </>

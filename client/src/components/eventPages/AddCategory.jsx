@@ -3,9 +3,12 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCategory({ eventId }) {
   const [categories, setCategories] = useState([{ name: "", price: "" }]);
+  const [loading, setLoading] = useState(false);
+  const navigate=useNavigate()
 
   const handleInputChange = (index, e) => {
     const { name, value } = e.target;
@@ -20,16 +23,21 @@ export default function AddCategory({ eventId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
     axiosInstance
       .post(`/api/event/${eventId}/createcategory`, categories)
       .then((response) => {
-        toast.success(response.data.message);
+        toast.success(response.data.message,{autoClose:200,onClose:()=>{navigate('/showuserevents')}});
       })
       .catch((err) => {
         toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    console.log("Submitted:", categories);
   };
+
   return (
     <>
       <form
@@ -70,9 +78,12 @@ export default function AddCategory({ eventId }) {
         </button>
         <button
           type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mt-4"
+          className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mt-4 ${
+            loading ? "cursor-not-allowed opacity-70" : ""
+          }`}
+          disabled={loading}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
       <ToastContainer />

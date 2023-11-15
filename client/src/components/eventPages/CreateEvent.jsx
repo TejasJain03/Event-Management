@@ -1,15 +1,15 @@
-import {useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
-import axiosInstance from '../axios'
+import axiosInstance from "../axios";
 
 export default function CreateEvent() {
   const [event, setEvent] = useState({});
-  const [eventId,setEventId]=useState()
+  const [eventId, setEventId] = useState();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState(false);
@@ -27,28 +27,23 @@ export default function CreateEvent() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axiosInstance.post(
-        "/api/createevent",
-        event,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setEventId(response.data.data._id)
-      toast.success(response.data.message);
+      const response = await axiosInstance.post("/api/createevent", event, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setEventId(response.data.data._id);
+      toast.success(response.data.message,{autoClose:200});
+      setCategory(true);
     } catch (err) {
       console.log(err);
       toast.err(err.response.data.message);
       navigate("/createevent");
     } finally {
       setLoading(false);
-      setCategory(true);
     }
   };
-
 
   return (
     <>

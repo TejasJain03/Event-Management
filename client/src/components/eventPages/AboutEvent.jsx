@@ -32,7 +32,7 @@ export default function Home() {
       <Navbar />
       <h1 className="text-5xl font-bold py-10 text-center">Event Details</h1>
       <div className="flex flex-col justify-center items-center ">
-        <div className="relative flex justify-center w-full items-center rounded-3xl border-gray-300">
+        <div className="relative flex justify-center w-full  items-center rounded-3xl border-gray-300">
           <img
             src={event.image}
             className="object-fit w-full h-[50vh] sm:blur-[4px]"
@@ -46,12 +46,12 @@ export default function Home() {
           />
         </div>
 
-        <div className="my-6 w-auto">
-          <div className="flex gap-4 border-b-2 border-gray-300 p-4 w-96 justify-center">
+        <div className="my-6 p-4 w-auto text-center">
+          <div className="flex w-full gap-4 border-b-2 border-gray-300 p-4  justify-center">
             <img src={event.image} className="h-10 w-10" alt="" />
             <h1 className="font-bold text-3xl">{event.name}</h1>
           </div>
-          <div className=" flex flex-col justify-center p-4 gap-y-4 border-b-2 border-gray-300">
+          <div className=" flex flex-col justify-center p-4 gap-y-4 border-b-2  border-gray-300">
             <h1 className="text-gray-600 text-xl">Organized by: {event.organizerId && event.organizerId.name}</h1>
             <h1 className=" text-gray-600 text-xl">Location: {event.location}</h1>
             {event && event.date && (
@@ -63,10 +63,10 @@ export default function Home() {
             <h1 className=" text-gray-600 text-xl border-b border-gray-300 p-4">
               Description
             </h1>
-            <p className="p-4 text-gray-600">{event.description}</p>
+            <p className="p-4 text-gray-600 ">{event.description}</p>
           </div>
           <div>
-            <table className="w-full border-collapse">
+            <table className="w-1/2 mx-auto border-collapse">
               <thead>
                 <tr>
                   <th className="border border-gray-300 py-2 px-4 font-bold">
