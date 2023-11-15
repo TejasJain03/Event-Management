@@ -28,7 +28,7 @@ export default function CreateEvent() {
     setLoading(true);
     try {
       const response = await axiosInstance.post(
-        "/createevent",
+        "/api/createevent",
         event,
         {
           withCredentials: true,
