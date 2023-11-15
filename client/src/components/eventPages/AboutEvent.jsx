@@ -1,4 +1,4 @@
-import axios from "../axios"
+import axiosInstance from "../axios"
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../utils/Navbar";
@@ -13,7 +13,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`/api/aboutevent/${id}`, {
         withCredentials: true,
       })

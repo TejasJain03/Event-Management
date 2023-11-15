@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axiosInstance.get("/createevent");
+      const response = await axiosInstance.get("/api/createevent");
       navigate("/createevent");
     } catch (err) {
       toast.error(err.response.data.message, {

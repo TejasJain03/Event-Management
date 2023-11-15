@@ -102,17 +102,17 @@ export default function LoginPage() {
               Go to Home page
             </button>
           </div>
-          <p className="mt-4  flex hover:cursor-pointer ">
+          <div className="mt-4  flex hover:cursor-pointer ">
             New here?
-            <h1
+            <p
               onClick={() => {
                 navigate("/signup");
               }}
               className="text-darkBlue font-bold "
             >
               Sign Up!!
-            </h1>
-          </p>
+            </p>
+          </div>
           <ToastContainer />
         </form>
       </div>

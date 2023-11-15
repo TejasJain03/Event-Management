@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
-import axios from "../axios"
+import axiosInstance from "../axios"
 
 export default function BookTicket() {
   const location = useLocation();
@@ -19,7 +19,7 @@ export default function BookTicket() {
   const [attendeeData, setAttendeeData] = useState([]);
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`/aboutevent/${eventId}`)
       .then((response) => {
         setEvent(response.data);

@@ -1,4 +1,4 @@
-import axios from "../axios";
+import axiosInstance from "../axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,8 +20,8 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`/showevent/${eventId}`)
+    axiosInstance
+      .get(`/api/showevent/${eventId}`)
       .then((response) => {
         console.log(response.data);
         setEvent(response.data);
@@ -38,8 +38,8 @@ export default function Home() {
   }, [eventId, navigate]);
 
   const handleDelete = (eventId) => {
-    axios
-      .delete(`/deleteevent/${eventId}`)
+    axiosInstance
+      .delete(`/api/deleteevent/${eventId}`)
       .then((response) => {
         toast.success(response.data.message, {
           autoClose: 200,
@@ -59,8 +59,8 @@ export default function Home() {
   };
 
   const handleCheckIn = (attendeeId) => {
-    axios
-      .post(`/event/${eventId}/check-in/${attendeeId}`)
+    axiosInstance
+      .post(`/api/event/${eventId}/check-in/${attendeeId}`)
       .then((response) => {
         console.log(response.data);
         const updatedAttendees = attendees.map((attendee) => {

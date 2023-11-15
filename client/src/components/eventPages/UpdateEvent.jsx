@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
-import axios from "../axios"
+import axiosInstance from "../axios"
 
 export default function UpdateEvent() {
   const [event, setEvent] = useState({});
@@ -17,8 +17,8 @@ export default function UpdateEvent() {
   const { eventId } = useParams();
 
   useEffect(() => {
-    axios
-      .get(`/showevent/${eventId}`)
+    axiosInstance
+      .get(`/api/showevent/${eventId}`)
       .then((response) => {
         console.log(response.data);
         setEvent(response.data);
@@ -40,9 +40,9 @@ export default function UpdateEvent() {
   };
 
   const handleCategoryDelete = (categoryId) => {
-    axios
+    axiosInstance
       .delete(
-        `/event/${eventId}/deletecategory/${categoryId}`
+        `/api/event/${eventId}/deletecategory/${categoryId}`
       )
       .then((response) => {
         console.log(response.data);
@@ -59,8 +59,8 @@ export default function UpdateEvent() {
     setLoading(true);
     try {
       console.log(event);
-      await axios.put(
-        `/updateevent/${eventId}`,
+      await axiosInstance.put(
+        `/api/updateevent/${eventId}`,
         event,
         {
           withCredentials: true,

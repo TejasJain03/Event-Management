@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "../axios"
+import axiosInstance from "../axios"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Navbar from "../utils/Navbar";
@@ -11,8 +11,8 @@ export default function UserEvents() {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    axios
-      .get("/logout", { withCredentials: true })
+    axiosInstance
+      .get("/api/logout", { withCredentials: true })
       .then((response) => {
         toast.success(response.data.message, {
           autoClose: 1000,
@@ -32,8 +32,8 @@ export default function UserEvents() {
   };
 
   useEffect(() => {
-    axios
-      .get("/showuserevent")
+    axiosInstance
+      .get("/api/showuserevent")
       .then((response) => {
         console.log(response.data);
         setEvents(response.data);

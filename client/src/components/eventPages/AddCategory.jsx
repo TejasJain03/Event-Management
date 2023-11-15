@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "../axios";
+import axiosInstance from "../axios";
 
 export default function AddCategory({ eventId }) {
   const [categories, setCategories] = useState([{ name: "", price: "" }]);
@@ -20,7 +20,7 @@ export default function AddCategory({ eventId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
+    axiosInstance
       .post(`/api/event/${eventId}/createcategory`, categories)
       .then((response) => {
         toast.success(response.data.message);

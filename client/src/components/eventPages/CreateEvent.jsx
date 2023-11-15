@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
-import axios from '../axios'
+import axiosInstance from '../axiosInstance'
 
 export default function CreateEvent() {
   const [event, setEvent] = useState({});
@@ -27,7 +27,7 @@ export default function CreateEvent() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         "/createevent",
         event,
         {
