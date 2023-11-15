@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
 import AddCategory from "./AddCategory";
-import axiosInstance from '../axiosInstance'
+import axiosInstance from '../axios'
 
 export default function CreateEvent() {
   const [event, setEvent] = useState({});
