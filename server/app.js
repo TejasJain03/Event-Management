@@ -27,7 +27,7 @@ connectDB()
 const PORT = process.env.PORT || 5000
 
 const corsOptions = {
-  origin: 'https://cosmic-crostata-3aee13.netlify.app',
+  origin: 'https://eventeasee.netlify.app',
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
