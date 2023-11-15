@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import axios from "../axios"
+import axiosInstance from "../axios"
 
 export default function PaymentConfirm() {
   const location = useLocation();
@@ -12,11 +12,11 @@ export default function PaymentConfirm() {
   const { eventId } = useParams();
   const createOrder = async () => {
     try {
-      const response = await axios.post(
-        "/create-order",
+      const response = await axiosInstance.post(
+        "/api/create-order",
       );
 
-      const callbackUrl = `https://event-management-api-fawn.vercel.app/api/paymentverification?allAttendeesData=${encodeURIComponent(
+      const callbackUrl = `https://event-management-api-iota.vercel.app/api/paymentverification?allAttendeesData=${encodeURIComponent(
         JSON.stringify(allAttendeesData)
       )}&eventId=${eventId}`;
 
@@ -38,7 +38,7 @@ export default function PaymentConfirm() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/get-key")
+    axiosInstance.get("/api/get-key")
     .then((response)=>{
       setKey(response.data.key)
     })
