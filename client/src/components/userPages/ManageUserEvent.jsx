@@ -12,6 +12,7 @@ export default function Home() {
   const [attendees, setAttendees] = useState([]);
   const [view, setView] = useState(false);
   const [event, setEvent] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleAttendees = () => {
     setView(!view);
@@ -38,6 +39,7 @@ export default function Home() {
   }, [eventId, navigate]);
 
   const handleDelete = (eventId) => {
+    setLoading(true);
     axiosInstance
       .delete(`/api/deleteevent/${eventId}`)
       .then((response) => {
@@ -51,6 +53,9 @@ export default function Home() {
       .catch((err) => {
         console.log(err.response);
         toast.error(err.respose);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -120,7 +125,7 @@ export default function Home() {
               </h1>
             )}
             <h1 className=" text-xl text-gray-600">
-              At: {event.time && event.time}
+              At: {event.time ? event.time : "No particular time mentioned"}
             </h1>
           </div>
         </div>
@@ -214,12 +219,15 @@ export default function Home() {
           My Events
         </button>
         <button
-          className="bg-red-600 p-3 font-bold rounded-lg  text-white"
+          className={`${
+            loading ? "bg-gray-500 cursor-not-allowed" : "bg-red-600"
+          } p-3 font-bold rounded-lg  text-white`}
           onClick={() => {
-            handleDelete(eventId);
+            !loading && handleDelete(eventId);
           }}
+          disabled={loading} 
         >
-          Delete Event
+          {loading ? "Deleting..." : "Delete Event"}
         </button>
         <button
           className="bg-darkBlue p-3 font-bold rounded-lg  text-white"

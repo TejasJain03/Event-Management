@@ -8,9 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function UserEvents() {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    setLoading(true);
     axiosInstance
       .get("/api/logout", { withCredentials: true })
       .then((response) => {
@@ -28,10 +30,14 @@ export default function UserEvents() {
             navigate("/login");
           },
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   useEffect(() => {
+    setLoading(true);
     axiosInstance
       .get("/api/showuserevent")
       .then((response) => {
@@ -45,6 +51,9 @@ export default function UserEvents() {
             navigate("/login");
           },
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [navigate]);
 
@@ -52,18 +61,13 @@ export default function UserEvents() {
     <div>
       <Navbar />
       <h1 className="text-5xl font-bold mb-4 text-center p-6">My Events</h1>
-
-      {events.length === 0 ? (
-        <p className="text-center text-lg font-bold mb-8">
-          You have no events.{" "}
-          <span
-            onClick={() => {
-              navigate(`/createevent`);
-            }}
-            className="text-darkBlue cursor-pointer hover:underline"
-          >
-            Create a New Event
-          </span>
+      {loading ? (
+        <p className="text-center text-lg font-bold h-[90vh] mb-8">
+          Loading...
+        </p>
+      ) : events.length === 0 ? (
+        <p className="text-center text-lg font-bold h-[90vh] mb-8">
+          You have no events.
         </p>
       ) : (
         <div className="flex flex-wrap justify-evenly gap-x-3 p-4 mx-1">
