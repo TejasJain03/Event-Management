@@ -95,7 +95,7 @@ exports.paymentVerification = async (req, res) => {
     }
     processAttendees()
 
-    res.redirect(`http://localhost:5173/paymentsuccess/${razorpay_order_id}`)
+    res.redirect(`https://eventeasee.netlify.app/paymentsuccess/${razorpay_order_id}`)
   } else {
     res.send({ success: false })
   }
