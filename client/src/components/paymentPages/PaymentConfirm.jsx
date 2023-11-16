@@ -16,7 +16,7 @@ export default function PaymentConfirm() {
         amount: finalTicketPrice(allAttendeesData),
       });
 
-      const callbackUrl = `http://localhost:5000/api/paymentverification?allAttendeesData=${encodeURIComponent(
+      const callbackUrl = `https://event-management-api-iota.vercel.app/api/paymentverification?allAttendeesData=${encodeURIComponent(
         JSON.stringify(allAttendeesData)
       )}&eventId=${eventId}`;
 
