@@ -15,18 +15,18 @@ const razorpay = new Razorpay({
 exports.creatOrder = async (req, res) => {
   res.json(req.body.amount)
   alert(req.body.amount)
-  const options = {
-    amount: req.body.amount * 100,
-    currency: 'INR',
-    receipt: 'order_receipt_123',
-  }
+  // const options = {
+  //   amount: req.body.amount * 100,
+  //   currency: 'INR',
+  //   receipt: 'order_receipt_123',
+  // }
 
-  const response = await razorpay.orders.create(options)
-  if (response.error) {
-    console.error(response.error);
-  } else {
-    res.send(response);
-  }
+  // const response = await razorpay.orders.create(options)
+  // if (response.error) {
+  //   console.error(response.error);
+  // } else {
+  //   res.send(response);
+  // }
   
 }
 
