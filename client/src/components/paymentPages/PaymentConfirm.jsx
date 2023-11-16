@@ -6,12 +6,15 @@ import axiosInstance from "../axios";
 export default function PaymentConfirm() {
   const location = useLocation();
   const [key, setKey] = useState();
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const allAttendeesData = location.state;
 
   const { eventId } = useParams();
   const createOrder = async () => {
     try {
+      setLoading(true); // Set loading to true when payment process starts
+
       const response = await axiosInstance.post("/api/create-order", {
         amount: finalTicketPrice(allAttendeesData),
       });
@@ -22,7 +25,7 @@ export default function PaymentConfirm() {
 
       const options = {
         key: key,
-        amount: response.data.amount*100,
+        amount: response.data.amount * 100,
         currency: response.data.currency,
         name: "Event Management",
         description: "Ticket payment",
@@ -34,6 +37,8 @@ export default function PaymentConfirm() {
       rzp1.open();
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading to false when payment process completes
     }
   };
 
@@ -88,7 +93,7 @@ export default function PaymentConfirm() {
           onClick={createOrder}
           className="bg-darkBlue text-white ml-4 px-4 py-2 rounded "
         >
-          Book Tickets
+          {loading ? "Processing Payment..." : "Book Tickets"}
         </button>
       </div>
     </div>
