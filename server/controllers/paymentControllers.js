@@ -13,7 +13,7 @@ const razorpay = new Razorpay({
 })
 
 exports.creatOrder = async (req, res) => {
-  res.json(req.body.amount)
+  // res.json(req.body.amount)
   alert(req.body.amount)
   const options = {
     amount: req.body.amount * 100,

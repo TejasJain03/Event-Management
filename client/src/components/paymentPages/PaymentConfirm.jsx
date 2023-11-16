@@ -22,7 +22,7 @@ export default function PaymentConfirm() {
 
       const options = {
         key: key,
-        amount: response.data.amount,
+        amount: response.data.amount*100,
         currency: response.data.currency,
         name: "Event Management",
         description: "Ticket payment",
