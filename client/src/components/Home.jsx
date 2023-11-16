@@ -37,7 +37,7 @@ export default function Home() {
               <h1 className="text-[#3498db] font-extrabold text-5xl text-center lg:text-left mb-4">
                 Your Event, Our Expertise, Unforgettable Moments
               </h1>
-              <button className="bg-darkBlue font-bold p-4 mx-12 lg:mx-0 rounded-lg text-white">
+              <button onClick={()=>{navigate('/showallevent')}} className="bg-darkBlue font-bold p-4 mx-12 lg:mx-0 rounded-lg text-white">
                 Discover Events
               </button>
             </div>

@@ -52,49 +52,64 @@ export default function UserEvents() {
     <div>
       <Navbar />
       <h1 className="text-5xl font-bold mb-4 text-center p-6">My Events</h1>
-      <div className="flex flex-wrap justify-evenly p-4 mx-1">
-        {events.map((event) => (
-          <div
-            key={event._id}
-            className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 p-4 border bg-background shadow-xl border-gray-300 rounded-md"
-          >
-            <h2 className="text-lg font-bold mb-2">{event.name}</h2>
-            <div className="w-full h-72 border-gray-300 border">
-              {event.image ? (
-                <img
-                  src={event.image}
-                  className="object-cover w-full h-full"
-                  alt=""
-                />
-              ) : (
-                <p className="text-center flex items-center justify-center h-full">
-                  No Image
-                </p>
-              )}
-            </div>
-            <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
-              Location: <span className="">{event.location}</span>
-            </p>
-            <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
-              Date: {event.date.slice(0, 10)}
-            </p>
-            <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
-              Time: {event.time}
-            </p>
 
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  navigate("/manageevent", { state: event._id });
-                }}
-                className="bg-darkBlue text-white px-4 py-2 rounded "
-              >
-                Manage Event
-              </button>
+      {events.length === 0 ? (
+        <p className="text-center text-lg font-bold mb-8">
+          You have no events.{" "}
+          <span
+            onClick={() => {
+              navigate(`/createevent`);
+            }}
+            className="text-darkBlue cursor-pointer hover:underline"
+          >
+            Create a New Event
+          </span>
+        </p>
+      ) : (
+        <div className="flex flex-wrap justify-evenly p-4 mx-1">
+          {events.map((event) => (
+            <div
+              key={event._id}
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 p-4 border bg-background shadow-xl border-gray-300 rounded-md"
+            >
+              <h2 className="text-lg font-bold mb-2">{event.name}</h2>
+              <div className="w-full h-72 border-gray-300 border">
+                {event.image ? (
+                  <img
+                    src={event.image}
+                    className="object-cover w-full h-full"
+                    alt=""
+                  />
+                ) : (
+                  <p className="text-center flex items-center justify-center h-full">
+                    No Image
+                  </p>
+                )}
+              </div>
+              <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
+                Location: <span className="">{event.location}</span>
+              </p>
+              <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
+                Date: {event.date.slice(0, 10)}
+              </p>
+              <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
+                Time: {event.time}
+              </p>
+
+              <div className="flex justify-center">
+                <button
+                  onClick={() => {
+                    navigate("/manageevent", { state: event._id });
+                  }}
+                  className="bg-darkBlue text-white px-4 py-2 rounded "
+                >
+                  Manage Event
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <div className="w-full h-40 flex flex-col gap-y-10 sm:flex-row justify-center items-center sm:gap-x-10">
         <button

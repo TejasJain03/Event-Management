@@ -80,7 +80,7 @@ export default function Home() {
     <>
       <Navbar />
       <div className="flex flex-col justify-center items-center ">
-        {event.image && (
+        {event.image ? (
           <div className="relative flex justify-center w-full items-center rounded-3xl border-gray-300">
             <img
               src={event.image}
@@ -93,6 +93,10 @@ export default function Home() {
               src={event.image}
               alt=""
             />
+          </div>
+        ) : (
+          <div className="w-full h-[50vh] border-gray-300 border flex items-center justify-center">
+            <p className="text-center text-gray-500">No Image</p>
           </div>
         )}
 

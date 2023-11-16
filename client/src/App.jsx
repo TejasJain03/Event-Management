@@ -13,6 +13,7 @@ import BookTicket from "./components/eventPages/BookTicket";
 import PaymentConfirm from "./components/paymentPages/PaymentConfirm";
 import PaymentSuccess from "./components/paymentPages/PaymentSuccess";
 import NotFound from "./components/NotFound";
+import HowItWorks from "./components/userPages/HowItWorks";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/showallevent" element={<AllEvent />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/howitworks" element={<HowItWorks/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
