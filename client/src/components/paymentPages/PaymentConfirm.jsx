@@ -80,7 +80,7 @@ export default function PaymentConfirm() {
 
         <div className="mb-4 px-4">
           <p className="font-bold">
-            Total Amount: ${finalTicketPrice(allAttendeesData)}
+            Total Amount: INR {finalTicketPrice(allAttendeesData)}
           </p>
         </div>
 
