@@ -66,11 +66,11 @@ export default function UserEvents() {
           </span>
         </p>
       ) : (
-        <div className="flex flex-wrap justify-evenly p-4 mx-1">
+        <div className="flex flex-wrap justify-evenly gap-x-3 p-4 mx-1">
           {events.map((event) => (
             <div
               key={event._id}
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 mb-4 p-4 border bg-background shadow-xl border-gray-300 rounded-md"
+              className="w-full sm:w-1/2 md:w-1/3  mb-4 p-4 border bg-background shadow-xl border-gray-300 rounded-md"
             >
               <h2 className="text-lg font-bold mb-2">{event.name}</h2>
               <div className="w-full h-72 border-gray-300 border">

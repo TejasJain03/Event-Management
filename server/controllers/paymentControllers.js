@@ -13,6 +13,7 @@ const razorpay = new Razorpay({
 })
 
 exports.creatOrder = async (req, res) => {
+  // res.json(req.body.amount)
   const options = {
     amount: req.body.amount * 100,
     currency: 'INR',
@@ -20,7 +21,12 @@ exports.creatOrder = async (req, res) => {
   }
 
   const response = await razorpay.orders.create(options)
-  res.json(response)
+  if (response.error) {
+    console.error(response.error);
+  } else {
+    res.send(response);
+  }
+  
 }
 
 exports.getKey=async(req,res)=>{

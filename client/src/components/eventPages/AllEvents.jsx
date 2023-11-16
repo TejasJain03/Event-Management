@@ -44,10 +44,10 @@ export default function Home() {
     <div>
       <Navbar />
       <div className="flex flex-wrap gap-x-4 gap-y-4 m-4">
-        {events.slice(0, 3).map((event) => (
+        {events.map((event) => (
           <div
             key={event._id}
-            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-[600px] h-[550px] p-4 border bg-background border-gray-300 rounded-md"
+            className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-[600px] h-auto p-4 border bg-background border-gray-300 rounded-md"
           >
             <h2 className="text-2xl font-bold mb-2">{event.name}</h2>
             <div className="w-full h-72 border-gray-300 border">

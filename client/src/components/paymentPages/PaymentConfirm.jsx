@@ -1,22 +1,22 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import axiosInstance from "../axios"
+import axiosInstance from "../axios";
 
 export default function PaymentConfirm() {
   const location = useLocation();
-  const [key,setKey]=useState()
+  const [key, setKey] = useState();
 
   const allAttendeesData = location.state;
 
   const { eventId } = useParams();
   const createOrder = async () => {
     try {
-      const response = await axiosInstance.post(
-        "/api/create-order",
-      );
+      const response = await axiosInstance.post("/api/create-order", {
+        amount: finalTicketPrice(allAttendeesData),
+      });
 
-      const callbackUrl = `https://event-management-api-iota.vercel.app/api/paymentverification?allAttendeesData=${encodeURIComponent(
+      const callbackUrl = `http://localhost:5000/api/paymentverification?allAttendeesData=${encodeURIComponent(
         JSON.stringify(allAttendeesData)
       )}&eventId=${eventId}`;
 
@@ -38,13 +38,14 @@ export default function PaymentConfirm() {
   };
 
   useEffect(() => {
-    axiosInstance.get("/api/get-key")
-    .then((response)=>{
-      setKey(response.data.key)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
+    axiosInstance
+      .get("/api/get-key")
+      .then((response) => {
+        setKey(response.data.key);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const finalTicketPrice = (allAttendeesData) => {

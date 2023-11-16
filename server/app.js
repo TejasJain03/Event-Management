@@ -27,8 +27,8 @@ connectDB()
 const PORT = process.env.PORT || 5000
 
 const corsOptions = {
-  origin: 'https://eventeasee.netlify.app',
-  // origin:"http://localhost:5173",
+  // origin: 'https://eventeasee.netlify.app',
+  origin:"http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
