@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../utils/Navbar";
 import Footer from "../utils/Footer";
-import axiosInstance from "../axios"
+import axiosInstance from "../axios";
 
 export default function BookTicket() {
   const location = useLocation();
@@ -57,7 +57,7 @@ export default function BookTicket() {
     const details = [];
     for (let i = 0; i < attendees; i++) {
       details.push(
-        <div key={i} className="gap-y-10">
+        <div key={i} className="gap-y-10 h-auto">
           <h3 className="text-left text-xl font-bold">
             Details of Attendee {i + 1}
           </h3>
@@ -177,7 +177,7 @@ export default function BookTicket() {
       <div className="w-full text-center mt-10">
         <h1 className="text-4xl font-bold  ">Books your Tickets!!!</h1>
       </div>
-      <div className="flex flex-col w-full h-[70vh] items-center justify-center">
+      <div className="flex flex-col w-full h-auto items-center justify-center">
         <div className="md:w-1/3 p-4 m-4 text-3xl text-center">
           <h3 className="font-bold mb-4 text-4xl">{event.name}</h3>
           <p className="mb-2 text-lg">Location: {event.location}</p>
@@ -189,8 +189,8 @@ export default function BookTicket() {
           <p className="mb-2 text-lg">Organizer Email: {organizer.email}</p>
         </div>
 
-        <div className="md:w-2/3 p-10   m-10 text-center">
-          <form onSubmit={handleSubmit} className="border-b-2 border-gray-300">
+        <div className="md:w-2/3 p-10 h-auto m-10 text-center">
+          <form onSubmit={handleSubmit} className="">
             <label htmlFor="attendees" className="mt-10">
               No. of Attendees
               <input
@@ -203,18 +203,20 @@ export default function BookTicket() {
                 className="ml-2 p-2 border rounded"
               />
             </label>
+
+            {view && (
+              <div className="mt-4">
+                {renderAttendeeDetails()}
+
+                <button
+                  type="submit"
+                  className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+                >
+                  Submit Attendees
+                </button>
+              </div>
+            )}
           </form>
-
-          {view && renderAttendeeDetails()}
-
-          {view && (
-            <button
-              onClick={handleSubmit}
-              className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-            >
-              Submit Attendees
-            </button>
-          )}
         </div>
       </div>
       <Footer />
