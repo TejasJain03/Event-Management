@@ -38,6 +38,17 @@ export default function Home() {
       });
   }, [eventId, navigate]);
 
+  const copyToClipboard = () => {
+    const linkToCopy=`https://eventeasee.netlify.app/aboutevent/${eventId}`
+    navigator.clipboard.writeText(linkToCopy)
+      .then(() => {
+        alert(`Link copied to clipboard: ${linkToCopy}`);
+      })
+      .catch((err) => {
+        console.error('Unable to copy to clipboard', err);
+      });
+  };
+
   const handleDelete = (eventId) => {
     setLoading(true);
     axiosInstance
@@ -211,7 +222,7 @@ export default function Home() {
 
       <div className="flex justify-center gap-x-10 my-4">
         <button
-          className="bg-darkBlue p-3 font-bold rounded-lg  text-white"
+          className="bg-darkBlue p-2 font-bold rounded-lg  text-white"
           onClick={() => {
             navigate("/showuserevents");
           }}
@@ -221,16 +232,22 @@ export default function Home() {
         <button
           className={`${
             loading ? "bg-gray-500 cursor-not-allowed" : "bg-red-600"
-          } p-3 font-bold rounded-lg  text-white`}
+          } p-2 font-bold rounded-lg  text-white`}
           onClick={() => {
             !loading && handleDelete(eventId);
           }}
-          disabled={loading} 
+          disabled={loading}
         >
           {loading ? "Deleting..." : "Delete Event"}
         </button>
         <button
-          className="bg-darkBlue p-3 font-bold rounded-lg  text-white"
+          className="bg-green-600 p-2 font-bold rounded-lg  text-white"
+          onClick={copyToClipboard}
+        >
+          Copy Link
+        </button>
+        <button
+          className="bg-darkBlue p-2 font-bold rounded-lg  text-white"
           onClick={handleUpdate}
         >
           Update Event

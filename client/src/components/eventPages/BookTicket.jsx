@@ -150,7 +150,7 @@ export default function BookTicket() {
                       price: category.price,
                     })}
                   >
-                    {category.name} - ${category.price}
+                    {category.name} - INR {category.price}
                   </option>
                 ))}
               </select>
