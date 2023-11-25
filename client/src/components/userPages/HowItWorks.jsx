@@ -71,9 +71,19 @@ export default function HowItWorks() {
           </p>
         </section>
 
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">7. Private Events</h2>
+          <p className="text-gray-700">
+            For private events, EventEase provides a link copying option. Easily
+            copy the event link and share it with specific individuals you want
+            to attend. This ensures a secure and controlled access to your
+            private gathering.
+          </p>
+        </section>
+
         <section>
           <h2 className="text-2xl font-bold mb-4">
-            7. Host and Enjoy Your Event
+            8. Host and Enjoy Your Event
           </h2>
           <p className="text-gray-700">
             As an event organizer, relax and enjoy your event knowing that

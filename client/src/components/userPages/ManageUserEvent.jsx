@@ -42,10 +42,10 @@ export default function Home() {
     const linkToCopy=`https://eventeasee.netlify.app/aboutevent/${eventId}`
     navigator.clipboard.writeText(linkToCopy)
       .then(() => {
-        alert(`Link copied to clipboard: ${linkToCopy}`);
+        toast.success("Link Copied to Your Clipboard",{autoClose:100})
       })
-      .catch((err) => {
-        console.error('Unable to copy to clipboard', err);
+      .catch(() => {
+        toast.error('Unable to copy to clipboard', {autoClose:100});
       });
   };
 
