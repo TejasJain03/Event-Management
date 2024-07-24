@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
-const ExpressError = require('../middleware/ExpressError')
+const ExpressError = require('../middleware/ExpressError').default
 require('dotenv').config()
 
 const isLoggedIn = async (req, res, next) => {

@@ -24,13 +24,13 @@ export default function Home() {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/showuserevents");
+        
       });
   }, [id, navigate]);
   return (
     <>
       <Navbar />
-      <h1 className="text-5xl font-bold py-10 text-center">Event Details</h1>
+      <h1 className="text- font-bold py-10 text-center">Event Details</h1>
       <div className="flex flex-col justify-center items-center ">
         <div className="relative flex justify-center w-full  items-center rounded-3xl border-gray-300">
           <img

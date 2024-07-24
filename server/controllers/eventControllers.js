@@ -17,7 +17,7 @@ exports.showAllEvent = async (req, res) => {
 exports.aboutEvent = async (req, res) => {
   const { eventId } = req.params
   const event = await Event.findById(eventId).populate(
-    'organizerId reviews ticketCategories',
+    'organizerId  ticketCategories',
   )
 
   if (!event) {
@@ -29,7 +29,7 @@ exports.aboutEvent = async (req, res) => {
 exports.showOneEvent = async (req, res) => {
   const { eventId } = req.params
   const event = await Event.findById(eventId).populate(
-    'organizerId attendees reviews ticketCategories',
+    'organizerId attendees ticketCategories',
   )
   if (!event) {
     return res.status(404).json({ success: false, message: 'Event not found' })

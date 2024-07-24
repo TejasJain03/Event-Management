@@ -179,14 +179,26 @@ export default function BookTicket() {
       </div>
       <div className="flex flex-col w-full h-auto items-center justify-center">
         <div className="md:w-1/3 p-4 m-4 text-3xl text-center">
-          <h3 className="font-bold mb-4 text-4xl">{event.name}</h3>
-          <p className="mb-2 text-lg">Location: {event.location}</p>
-          <p className="mb-2 text-lg">Date: {event.date}</p>
-          <p className="mb-2 text-lg">Organized By: {organizer.name}</p>
-          <p className="mb-2 text-lg">
-            Organizer Phone Number: {organizer.phoneNumber}
+          <h3 className="font-bold mb-4 text-3xl sm:text-4xl">{event.name}</h3>
+          <p className="mb-2 text-lg text-gray-700">
+            <span className="font-semibold">Location:</span> {event.location}
           </p>
-          <p className="mb-2 text-lg">Organizer Email: {organizer.email}</p>
+          <p className="mb-2 text-lg text-gray-700">
+            <span className="font-semibold">Date:</span>{" "}
+            {event.date ? event.date.slice(0, 10) : "Date not available"}
+          </p>
+          <p className="mb-2 text-lg text-gray-700">
+            <span className="font-semibold">Organized By:</span>{" "}
+            {organizer.name}
+          </p>
+          <p className="mb-2 text-lg text-gray-700">
+            <span className="font-semibold">Organizer Phone Number:</span>{" "}
+            {organizer.phoneNumber || "Phone number not provided"}
+          </p>
+          <p className="mb-2 text-lg text-gray-700">
+            <span className="font-semibold">Organizer Email:</span>{" "}
+            {organizer.email || "Email not provided"}
+          </p>
         </div>
 
         <div className="md:w-2/3 p-10 h-auto m-10 text-center">

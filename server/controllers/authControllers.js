@@ -1,7 +1,7 @@
-const ExpressError = require('../middleware/ExpressError')
+const ExpressError = require('../middleware/ExpressError').default
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const Review = require('../models/review')
+
 const generateToken = require('../utils/generateToken')
 const { userRegistrationSchema, userLoginSchema } = require('../schema')
 const jwt = require('jsonwebtoken')
@@ -48,7 +48,6 @@ exports.loginUser = async (req, res) => {
       error.details.map((el) => el.message).join(','),
     )
   }
-  
 
   const user = await User.findOne({ email })
 

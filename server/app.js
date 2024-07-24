@@ -6,7 +6,7 @@ const eventRoutes = require('./routes/eventRoutes')
 const attendeeRoutes = require('./routes/attendeeRoutes')
 const authRoutes = require('./routes/authRoutes')
 const ticketRoutes = require('./routes/ticketRoutes')
-const reviewRoutes = require('./routes/reviewRoutes')
+
 const categoryRoutes = require('./routes/categoryRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
 const ExpressError = require('./middleware/ExpressError')
@@ -27,8 +27,8 @@ connectDB()
 const PORT = process.env.PORT || 5000
 
 const corsOptions = {
-  origin: 'https://eventeasee.netlify.app',
-  // origin:"http://localhost:5173",
+  // origin: 'https://eventeasee.netlify.app',
+  origin:"http://localhost:5173",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
@@ -46,7 +46,6 @@ app.use('/api', authRoutes)
 app.use('/api', ticketRoutes)
 app.use('/api', paymentRoutes)
 app.use('/api/event', categoryRoutes)
-app.use('/api/event', reviewRoutes)
 
 app.get('/', (req, res) => {
   res.json('Event Management')

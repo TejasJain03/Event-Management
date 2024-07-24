@@ -96,9 +96,6 @@ export default function UserEvents() {
               <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
                 Date: {event.date.slice(0, 10)}
               </p>
-              <p className="text-gray-600 font-extrabold mb-2 p-2 text-xl">
-                Time: {event.time}
-              </p>
 
               <div className="flex justify-center">
                 <button

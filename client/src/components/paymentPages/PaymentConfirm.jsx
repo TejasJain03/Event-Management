@@ -6,14 +6,14 @@ import axiosInstance from "../axios";
 export default function PaymentConfirm() {
   const location = useLocation();
   const [key, setKey] = useState();
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);  
 
   const allAttendeesData = location.state;
 
   const { eventId } = useParams();
   const createOrder = async () => {
     try {
-      setLoading(true); // Set loading to true when payment process starts
+      setLoading(true); 
 
       const response = await axiosInstance.post("/api/create-order", {
         amount: finalTicketPrice(allAttendeesData),
